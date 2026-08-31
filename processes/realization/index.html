@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Реализация инвестиционного проекта: BPMN, нормативный документ и ролевая инструкция.">
+  <title>Реализация проекта · ДУП</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bpmn-js@18.26.0/dist/assets/diagram-js.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bpmn-js@18.26.0/dist/assets/bpmn-font/css/bpmn.css">
+  <link rel="stylesheet" href="../../assets/css/site.css">
+
+  <script defer src="https://cdn.jsdelivr.net/npm/bpmn-js@18.26.0/dist/bpmn-navigated-viewer.production.min.js"></script>
+  <script defer src="../../assets/js/process-page.js"></script>
+</head>
+<body class="process-page">
+  <header class="site-header">
+    <div class="shell site-header__inner">
+      <a class="brand" href="../../" aria-label="Вернуться к каталогу">
+        <span class="brand__mark">ДУП</span>
+        <span class="brand__text">Навигатор процессов</span>
+      </a>
+      <a class="back-link" href="../../">← Все процессы</a>
+    </div>
+  </header>
+
+  <main class="process-workspace">
+    <section class="shell process-titlebar">
+      <div>
+        <p class="eyebrow">Этап «Реализация»</p>
+        <h1>Реализация инвестиционного проекта</h1>
+      </div>
+    </section>
+
+    <div class="shell material-nav-wrap">
+      <nav class="tabs material-nav" aria-label="Материалы процесса" role="tablist">
+        <button class="tab is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-diagram" id="tab-diagram" data-tab="diagram">
+          <span class="tab__icon">⌘</span>
+          <span><b>Схема</b><small>BPMN</small></span>
+        </button>
+        <button class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-document" id="tab-document" data-tab="document">
+          <span class="tab__icon">▤</span>
+          <span><b>Документ</b><small>PDF / DOCX</small></span>
+        </button>
+        <a class="tab tab--link" href="./guide/" id="guide-link">
+          <span class="tab__icon">◎</span>
+          <span><b>Моя роль</b><small>шпаргалка</small></span>
+        </a>
+      </nav>
+    </div>
+
+    <section class="workspace-panel is-active" id="panel-diagram" role="tabpanel" aria-labelledby="tab-diagram" data-panel="diagram">
+      <div class="bpmn-workspace" id="bpmn-frame">
+        <div class="workspace-toolbar" id="diagram-actions" hidden aria-label="Управление схемой">
+          <div class="workspace-toolbar__group">
+            <button type="button" class="viewer-button viewer-button--icon" data-diagram-action="zoom-out" title="Уменьшить" aria-label="Уменьшить">−</button>
+            <button type="button" class="viewer-button" data-diagram-action="zoom-reset" title="Показать схему целиком">Вписать</button>
+            <button type="button" class="viewer-button viewer-button--icon" data-diagram-action="zoom-in" title="Увеличить" aria-label="Увеличить">+</button>
+            <span class="zoom-value" id="diagram-zoom-value" aria-live="polite"></span>
+          </div>
+          <div class="workspace-toolbar__group">
+            <button type="button" class="viewer-button" data-diagram-action="fullscreen">На весь экран</button>
+            <a class="viewer-button viewer-button--link" id="diagram-download" href="./diagram/realization.bpmn" download hidden>Скачать BPMN</a>
+          </div>
+        </div>
+
+        <div class="canvas-stage">
+          <div class="loading-state" id="diagram-loading">
+          <span class="spinner" aria-hidden="true"></span>
+        </div>
+          <div id="bpmn-canvas" class="bpmn-canvas" aria-label="BPMN-схема"></div>
+          <div class="empty-state" id="diagram-empty" hidden></div>
+          <div class="demo-badge" id="diagram-demo" hidden>Демо-схема</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="workspace-panel" id="panel-document" role="tabpanel" aria-labelledby="tab-document" data-panel="document" hidden>
+      <div class="document-workspace">
+        <div class="workspace-toolbar workspace-toolbar--document" id="document-actions" hidden>
+          <div class="workspace-toolbar__group">
+            <span class="workspace-toolbar__label">Нормативный документ</span>
+          </div>
+          <div class="workspace-toolbar__group">
+            <a class="viewer-button viewer-button--link" id="document-open" href="./document/regulation.pdf" target="_blank" rel="noopener">Открыть PDF</a>
+            <a class="viewer-button viewer-button--link" id="document-pdf-download" href="./document/regulation.pdf" download>Скачать PDF</a>
+            <a class="viewer-button viewer-button--link" id="document-docx-download" href="./document/regulation.docx" download hidden>Скачать DOCX</a>
+          </div>
+        </div>
+        <div class="document-stage">
+          <iframe id="document-viewer" title="Просмотр нормативного документа" hidden></iframe>
+          <div class="empty-state" id="document-empty">
+            <div class="empty-state__icon">▤</div>
+            <h3>PDF пока не добавлен</h3>
+            <p>Добавьте <code>processes/realization/document/regulation.pdf</code>. DOCX можно оставить рядом для скачивания.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

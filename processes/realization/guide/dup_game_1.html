@@ -1,0 +1,925 @@
+<title>ДУП · Твоя роль в процессе</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    --paper:#eef2f1;
+    --paper-raised:#ffffff;
+    --ink:#16232a;
+    --muted:#56666d;
+    --line:#c3cecb;
+    --stage:#2b6e62;
+    --stage-soft:#e2edea;
+    --stage-ink:#173d35;
+    --gate:#b8721b;
+    --gate-soft:#faf0dc;
+    --gate-ink:#7a4c11;
+    --escalate:#a3382b;
+    --escalate-soft:#f7e6e2;
+    --zebra:#f2f6f5;
+    --done:#3d7a52;
+    --done-soft:#e3efe6;
+    --raci:#6b4fa0;
+    --raci-soft:#efe8f7;
+    --shadow: 0 1px 2px rgba(22,35,42,0.06), 0 6px 20px rgba(22,35,42,0.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#0f1613; --paper-raised:#161f1c; --ink:#e7edea; --muted:#9fb0ab; --line:#2b3a36;
+      --stage:#7fd0bd; --stage-soft:#16302a; --stage-ink:#bdf0e0;
+      --gate:#e6a94f; --gate-soft:#33270f; --gate-ink:#f4cf95;
+      --escalate:#e6968a; --escalate-soft:#3a2320;
+      --zebra:#131c19; --done:#7fd09a; --done-soft:#153524;
+      --raci:#c9a8f0; --raci-soft:#2a2038;
+      --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 30px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0f1613; --paper-raised:#161f1c; --ink:#e7edea; --muted:#9fb0ab; --line:#2b3a36;
+    --stage:#7fd0bd; --stage-soft:#16302a; --stage-ink:#bdf0e0;
+    --gate:#e6a94f; --gate-soft:#33270f; --gate-ink:#f4cf95;
+    --escalate:#e6968a; --escalate-soft:#3a2320;
+    --zebra:#131c19; --done:#7fd09a; --done-soft:#153524;
+    --raci:#c9a8f0; --raci-soft:#2a2038;
+    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 30px rgba(0,0,0,0.35);
+  }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:"IBM Plex Sans", "Segoe UI", sans-serif; -webkit-font-smoothing:antialiased; }
+  .page{ max-width:900px; margin:0 auto; padding:40px 24px 90px; }
+  a{ color:inherit; }
+  button{ font:inherit; }
+
+  .kicker{ font-family:"IBM Plex Mono", monospace; font-size:12px; letter-spacing:.09em; text-transform:uppercase; color:var(--stage-ink); display:flex; align-items:center; gap:10px; }
+  .kicker::before{ content:""; width:22px; height:2px; background:var(--stage); display:inline-block; }
+  h1{ font-family:"Golos Text", sans-serif; font-weight:700; font-size:clamp(24px,3.4vw,34px); line-height:1.15; letter-spacing:-.01em; margin:10px 0 8px; }
+  .lede{ font-size:14.5px; line-height:1.6; color:var(--muted); max-width:62ch; margin:0 0 6px; }
+  .note-strip{ font-size:12.5px; color:var(--stage-ink); background:var(--stage-soft); border:1px solid var(--stage); border-radius:10px; padding:9px 13px; display:inline-block; margin-top:10px; }
+
+  /* ---- intro: role grid ---- */
+  .role-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:12px; margin-top:26px; }
+  .role-card{ text-align:left; background:var(--paper-raised); border:1px solid var(--line); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow); cursor:pointer; }
+  .role-card:hover{ border-color:var(--stage); }
+  .role-card .rname{ font-family:"Golos Text", sans-serif; font-weight:700; font-size:16px; }
+  .role-card .rtag{ font-size:12px; color:var(--muted); margin-top:5px; line-height:1.45; }
+  .role-card .rcount{ font-family:"IBM Plex Mono", monospace; font-size:10.5px; font-weight:600; color:var(--stage-ink); background:var(--stage-soft); border-radius:99px; padding:3px 9px; display:inline-block; margin-top:11px; }
+  .role-card.overview{ grid-column:1 / -1; background:var(--stage-soft); border-color:var(--stage); }
+  .role-card.overview .rname{ font-size:18px; }
+  .role-card.overview .rcount{ background:var(--paper-raised); }
+  .rframework{ font-family:"IBM Plex Mono", monospace; font-size:9.5px; font-weight:600; color:var(--gate-ink); background:var(--gate-soft); border:1px solid var(--gate); border-radius:6px; padding:2px 8px; display:inline-block; margin-top:8px; line-height:1.5; }
+
+  .std-toggle{ margin-top:14px; font-family:"IBM Plex Mono", monospace; font-size:11.5px; font-weight:600; color:var(--stage-ink); background:var(--stage-soft); border:1px solid var(--stage); border-radius:8px; padding:7px 12px; cursor:pointer; }
+  .std-toggle:hover{ filter:brightness(1.05); }
+  .std-panel{ margin-top:12px; display:flex; flex-direction:column; gap:10px; }
+  .std-card{ background:var(--paper-raised); border:1px solid var(--line); border-radius:12px; padding:14px 16px; box-shadow:var(--shadow); }
+  .std-card-title{ font-family:"Golos Text", sans-serif; font-weight:700; font-size:13.5px; color:var(--gate-ink); margin-bottom:7px; }
+  .std-card-text{ font-size:12.5px; line-height:1.65; color:var(--ink); }
+
+  .g-independence{ margin-top:10px; font-size:11.5px; line-height:1.5; color:var(--gate-ink); background:var(--paper-raised); border:1px dashed var(--gate); border-radius:8px; padding:9px 12px; }
+
+  .raci-toggle{ margin-top:12px; font-family:"IBM Plex Mono", monospace; font-size:11.5px; font-weight:600; color:var(--raci); background:var(--raci-soft); border:1px solid var(--raci); border-radius:8px; padding:7px 12px; cursor:pointer; }
+  .raci-toggle:hover{ filter:brightness(1.05); }
+  .raci-legend{ margin-top:12px; font-size:11.5px; color:var(--muted); line-height:1.6; }
+  .raci-legend b{ color:var(--ink); }
+  .raci-table-wrap{ margin-top:12px; max-height:560px; overflow:auto; border:1px solid var(--line); border-radius:12px; }
+  table.raci-table{ border-collapse:collapse; width:100%; min-width:820px; font-size:12px; }
+  .raci-table th{ position:sticky; top:0; background:var(--paper-raised); text-align:left; font-family:"IBM Plex Mono", monospace; font-size:10px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); padding:9px 12px; border-bottom:1px solid var(--line); }
+  .raci-table td{ padding:8px 12px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink); line-height:1.4; }
+  .raci-table tr:last-child td{ border-bottom:none; }
+  .raci-table td.raci-no{ font-family:"IBM Plex Mono", monospace; font-size:10.5px; color:var(--muted); white-space:nowrap; }
+  .raci-table td.raci-step{ max-width:340px; }
+  .raci-stage-row td{ background:var(--stage-soft); color:var(--stage-ink); font-weight:700; font-family:"Golos Text", sans-serif; font-size:12.5px; padding:9px 12px; }
+
+  .stake-row{ margin-top:12px; font-size:12px; color:var(--muted); line-height:1.7; }
+  .stake-row .stake-label{ font-family:"IBM Plex Mono", monospace; font-size:10px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); margin-right:6px; }
+  .stake-row .chip{ margin:0 3px 3px 0; }
+
+  .chip.raci{ background:var(--raci-soft); color:var(--raci); border-color:var(--raci); font-weight:700; }
+
+  footer{ margin-top:44px; padding-top:18px; border-top:1px solid var(--line); font-size:11.5px; color:var(--muted); line-height:1.6; max-width:70ch; }
+
+  /* ---- walk screen ---- */
+  .walk-top{ display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+  .walk-role{ font-family:"Golos Text", sans-serif; font-weight:700; font-size:19px; }
+  .walk-back{ font-family:"IBM Plex Mono", monospace; font-size:11.5px; font-weight:600; color:var(--muted); background:none; border:1px solid var(--line); border-radius:99px; padding:6px 13px; cursor:pointer; }
+  .walk-back:hover{ border-color:var(--stage); color:var(--stage-ink); }
+  .walk-count{ font-family:"IBM Plex Mono", monospace; font-size:11.5px; color:var(--muted); white-space:nowrap; }
+
+  .progress-track{ height:5px; border-radius:99px; background:var(--line); margin-top:12px; overflow:hidden; }
+  .progress-fill{ height:100%; background:var(--stage); border-radius:99px; transition:width .25s ease; }
+
+  .stage-strip{ display:flex; gap:5px; margin-top:14px; }
+  .stage-dot-wrap{ flex:1; }
+  .stage-dot{ height:6px; border-radius:99px; background:var(--line); }
+  .stage-dot.touched{ background:var(--stage-soft); border:1px solid var(--stage); }
+  .stage-dot.current{ background:var(--stage); }
+
+  .moment-card{ background:var(--paper-raised); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:24px 26px; margin-top:22px; }
+  .moment-kicker{ font-family:"IBM Plex Mono", monospace; font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--stage-ink); font-weight:600; }
+  .moment-trigger{ font-size:12.5px; color:var(--muted); background:var(--zebra); border-radius:10px; padding:9px 12px; margin-top:10px; line-height:1.5; }
+  .moment-trigger b{ color:var(--ink); font-weight:600; }
+
+  .chip-row{ display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
+  .chip{ font-family:"IBM Plex Mono", monospace; font-size:10.5px; font-weight:600; padding:3px 10px; border-radius:99px; background:var(--zebra); color:var(--muted); border:1px solid var(--line); }
+  .chip.me{ background:var(--stage); color:#fff; border-color:var(--stage); }
+  .chip.para{ background:var(--paper); color:var(--muted); }
+  .chip.sla{ background:var(--gate-soft); color:var(--gate-ink); border-color:var(--gate); }
+
+  .moment-text{ font-size:16px; line-height:1.55; margin-top:16px; color:var(--ink); }
+
+  .flow-label-row{ font-family:"IBM Plex Mono", monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); margin-top:18px; }
+  .flow-chain{ display:flex; align-items:center; flex-wrap:wrap; gap:2px 4px; margin-top:9px; }
+  .flow-node{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:var(--zebra); border:1px solid var(--line); border-radius:10px; padding:8px 9px; min-width:62px; max-width:110px; text-align:center; }
+  .flow-node.me{ background:var(--stage-soft); border-color:var(--stage); box-shadow:0 0 0 2px var(--stage-soft); }
+  .flow-icon{ font-size:17px; line-height:1; }
+  .flow-label{ font-family:"IBM Plex Mono", monospace; font-size:9px; font-weight:600; color:var(--ink); line-height:1.25; word-break:break-word; }
+  .flow-node.me .flow-label{ color:var(--stage-ink); }
+  .flow-arrow{ color:var(--muted); font-size:14px; flex:none; padding:0 1px; }
+  .flow-plus{ color:var(--muted); font-size:15px; font-weight:700; flex:none; padding:0 2px; }
+
+  .flow-approve{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:9px; }
+  .flow-cluster{ display:flex; flex-direction:column; gap:6px; align-items:center; }
+  .flow-cluster-label{ font-family:"IBM Plex Mono", monospace; font-size:9px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.03em; }
+  .flow-cluster-nodes{ display:flex; align-items:center; gap:0; flex-wrap:wrap; padding:9px; border:1px dashed var(--line); border-radius:12px; }
+  .flow-big-arrow{ display:flex; flex-direction:column; align-items:center; color:var(--muted); font-size:20px; line-height:1; flex:none; }
+  .flow-arrow-label{ font-family:"IBM Plex Mono", monospace; font-size:8.5px; font-weight:600; color:var(--stage-ink); white-space:nowrap; margin-top:3px; }
+  .flow-node.target-approve{ border-width:2px; border-color:var(--gate); box-shadow:0 0 0 3px var(--gate-soft); }
+  .flow-node.target-converge{ border-width:2px; border-color:var(--stage); box-shadow:0 0 0 3px var(--stage-soft); }
+
+  .flow-node.doc{ background:var(--gate-soft); border:1.5px dashed var(--gate); min-width:118px; }
+  .flow-node.doc .flow-label{ color:var(--gate-ink); }
+  .flow-doc-sub{ font-family:"IBM Plex Mono", monospace; font-size:8px; font-weight:500; color:var(--muted); line-height:1.3; margin-top:1px; }
+  .flow-role-note{ font-family:"IBM Plex Mono", monospace; font-size:8.5px; color:var(--muted); text-align:center; max-width:90px; line-height:1.25; }
+  .flow-node-wrap{ display:flex; flex-direction:column; align-items:center; gap:5px; }
+  .flow-dual-block{ margin-top:10px; }
+  .flow-dual-label{ font-family:"IBM Plex Mono", monospace; font-size:9.5px; font-weight:600; color:var(--stage-ink); margin-bottom:7px; }
+  .flow-dual-divider{ height:1px; background:var(--line); margin:16px 0 4px; }
+
+  .checklist{ margin-top:16px; }
+  .checklist-head{ font-family:"IBM Plex Mono", monospace; font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); margin-bottom:8px; }
+  .checklist-items{ display:flex; flex-direction:column; gap:7px; }
+  .checklist-item{ display:flex; align-items:flex-start; gap:10px; background:var(--done-soft); border:1px solid var(--done); border-radius:10px; padding:9px 13px; font-size:13px; color:var(--ink); line-height:1.45; }
+  .checklist-check{ flex:none; width:19px; height:19px; margin-top:1px; border-radius:50%; background:var(--done); color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; }
+
+  .doc-io{ display:flex; gap:14px; flex-wrap:wrap; margin-top:16px; }
+  .doc-io-col{ flex:1 1 220px; min-width:200px; }
+  .doc-io-head{ font-family:"IBM Plex Mono", monospace; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+  .doc-io-head.in{ color:var(--stage-ink); }
+  .doc-io-head.out{ color:var(--gate-ink); }
+  .doc-io-item{ display:flex; align-items:flex-start; gap:8px; border-radius:9px; padding:8px 11px; font-size:12px; line-height:1.4; margin-bottom:6px; }
+  .doc-io-item.in{ background:var(--stage-soft); border:1px solid var(--stage); color:var(--ink); }
+  .doc-io-item.out{ background:var(--gate-soft); border:1px solid var(--gate); color:var(--ink); }
+  .doc-io-icon{ flex:none; font-size:13px; line-height:1.3; }
+  .doc-io-tag{ font-family:"IBM Plex Mono", monospace; font-size:10px; font-weight:700; color:var(--muted); white-space:nowrap; }
+
+  .cond-list{ display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+  .cond-item{ display:flex; align-items:flex-start; gap:8px; background:var(--paper-raised); border:1px solid var(--gate); border-radius:8px; padding:7px 11px; font-size:12px; line-height:1.4; color:var(--ink); }
+  .cond-check{ flex:none; width:16px; height:16px; margin-top:1px; border-radius:50%; background:var(--gate); color:#fff; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; }
+
+  .branch-btn{ margin-top:16px; font-family:"IBM Plex Mono", monospace; font-size:11.5px; font-weight:600; color:var(--stage-ink); background:var(--stage-soft); border:1px solid var(--stage); border-radius:8px; padding:7px 12px; cursor:pointer; }
+  .branch-btn:hover{ filter:brightness(1.05); }
+  .branch-panel{ margin-top:12px; font-size:12.5px; line-height:1.55; color:var(--ink); background:var(--zebra); border-left:3px solid var(--stage); border-radius:0 10px 10px 0; padding:11px 14px; }
+
+  .gate-box{ margin-top:16px; background:var(--gate-soft); border:1px solid var(--gate); border-radius:12px; padding:16px 18px; }
+  .gate-box .g-title{ font-family:"Golos Text", sans-serif; font-weight:700; font-size:15px; color:var(--gate-ink); }
+  .gate-box .g-cond{ font-size:13px; line-height:1.55; color:var(--ink); margin-top:7px; }
+  .gate-box .g-esc{ font-size:11.5px; color:var(--escalate); margin-top:8px; font-weight:600; }
+  .g-choices{ margin-top:14px; display:flex; gap:8px; flex-wrap:wrap; }
+  .btn{ font-family:"IBM Plex Mono", monospace; font-size:12px; font-weight:600; border-radius:8px; padding:8px 14px; cursor:pointer; border:1px solid var(--line); background:var(--paper-raised); color:var(--ink); }
+  .btn:hover{ border-color:var(--stage); }
+  .btn.primary{ background:var(--stage); border-color:var(--stage); color:#fff; }
+  .btn.good{ border-color:var(--done); color:var(--done); }
+  .btn.good.picked{ background:var(--done); color:#fff; }
+  .btn.bad{ border-color:var(--escalate); color:var(--escalate); }
+  .btn.bad.picked{ background:var(--escalate); color:#fff; }
+  .btn.ghost{ background:none; }
+  .btn[disabled]{ opacity:.4; cursor:default; }
+  .g-outcome{ margin-top:12px; font-size:12.5px; line-height:1.55; border-radius:10px; padding:11px 14px; }
+  .g-outcome.good{ background:var(--done-soft); color:var(--done); }
+  .g-outcome.bad{ background:var(--escalate-soft); color:var(--escalate); }
+  .g-reveal-btn{ margin-top:14px; }
+  .g-guide{ margin-top:12px; font-size:12.5px; line-height:1.6; color:var(--ink); background:var(--paper-raised); border:1px solid var(--gate); border-radius:10px; padding:12px 14px; }
+
+  .nav-row{ display:flex; align-items:center; justify-content:space-between; margin-top:20px; gap:10px; }
+  .nav-spacer{ flex:1; }
+
+  /* ---- done screen ---- */
+  .done-hero{ background:var(--paper-raised); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:30px 26px; text-align:center; margin-top:24px; }
+  .done-big{ font-family:"Golos Text", sans-serif; font-weight:700; font-size:32px; color:var(--stage-ink); }
+  .done-sub{ font-size:13.5px; color:var(--muted); margin-top:8px; }
+  .done-stages{ display:flex; justify-content:center; flex-wrap:wrap; gap:6px; margin-top:16px; }
+  .done-actions{ margin-top:20px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
+
+  .recap{ margin-top:28px; }
+  .recap h2{ font-family:"Golos Text", sans-serif; font-weight:600; font-size:16px; margin:0 0 12px; }
+  .recap-item{ display:flex; gap:10px; align-items:baseline; padding:9px 0; border-bottom:1px solid var(--line); font-size:12.5px; }
+  .recap-item:last-child{ border-bottom:none; }
+  .recap-item .rp{ font-family:"IBM Plex Mono", monospace; color:var(--muted); flex:none; width:52px; }
+  .recap-item .rt{ color:var(--ink); line-height:1.5; }
+
+  @media (max-width:640px){ .page{ padding:30px 16px 70px; } .moment-card{ padding:18px 16px; } }
+</style>
+
+<body>
+<div class="page" id="pageRoot"></div>
+<script>
+(function(){
+"use strict";
+
+var STAGE_DEFS = [
+ {id:1, title:"Планирование проекта", trigger:"Бизнес-план утвержден и включен в БКВ, Заказчик довел объем и задачи", items:[
+   {t:"step", no:"6.1", actors:["МП"], r:["МП"], a:["МП"], sla:"≤10 р.д.", text:"Структурное, календарное и ресурсное планирование проекта в SAP PS.", docs:{input:[{label:"Утверждённый бизнес-план, включённый в БКВ",from:"Заказчик"}],output:[{label:"План проекта в SAP PS (структурный / календарный / ресурсный)"}]}},
+   {t:"step", no:"6.2", actors:["МП"], r:["МП"], a:["МП"], text:"Планирование включает: структурный план, календарный план, сроки, материальные ресурсы, ключевые контрольные точки, проектную ответственность.", checklist:{head:"Планирование включает", items:["структурный план","календарный план","сроки","материальные ресурсы","ключевые контрольные точки","проектную ответственность"]}},
+   {t:"step", no:"6.3", actors:["МП"], r:["МП"], a:["МП"], text:"Разработка ПГ этапа «Реализация» с матрицей ответственности.", docs:{input:[{label:"Структурный, календарный и ресурсный план проекта"}],output:[{label:"ПГ этапа «Реализация» с матрицей ответственности",to:"Заказчик, КУП — на согласование"}]}},
+   {t:"step", no:"6.4", actors:["Заказчик","КУП","ГД ДУП"], r:["ГД ДУП"], a:["ГД ДУП"], c:["Заказчик","КУП"], text:"Согласование ПГ Заказчиком и членами КУП, утверждение ГД ДУП.", flow:{type:"approve", group:["Заказчик","КУП"], groupLabel:"Согласуют", target:"ГД ДУП", targetLabel:"Утверждает"}, docs:{input:[{label:"Проект ПГ этапа «Реализация»",from:"МП"}],output:[{label:"Утверждённый ПГ",to:"МП — для исполнения"}]}},
+   {t:"step", no:"6.5", actors:["МП"], r:["МП"], a:["МП"], text:"В ПГ отражены: объекты, сроки ПИР/ПСД/экспертизы, финансирование, закупки, договоры, СМР/приемка, актирование, ответственные, гейты.", checklist:{head:"В ПГ отражены", items:["объекты","сроки ПИР/ПСД/экспертизы","финансирование","закупки","договоры","СМР/приемка","актирование","ответственные","гейты"]}},
+   {t:"step", no:"6.6", actors:["МП"], r:["МП"], a:["МП"], sla:"≤2 р.д.", text:"Проверка полноты ПГ.", branch:"Если неполнота выявлена → устраняет МП, срок 2 р.д. (это его собственный документ, возврат не требуется)."}
+ ]},
+ {id:2, title:"Планирование потребностей и плана закупок", trigger:"Утвержденный ПГ этапа «Реализация»", items:[
+   {t:"step", no:"7.1", actors:["МП","ЦП","ЦКС","ОСД"], r:["МП"], a:["МП"], c:["ЦП","ЦКС","ОСД"], text:"Планирование и корректировка потребности по СМР/ПИР на основании ПГ.", flow:{type:"converge", group:["ЦП","ЦКС","ОСД"], groupLabel:"Передают данные", target:"МП", targetLabel:"Планирует на основании"}},
+   {t:"step", no:"7.2", actors:["МП"], r:["МП"], a:["МП"], text:"МП отвечает за соответствие потребностей целям, срокам и бюджету."},
+   {t:"step", no:"7.3", actors:[], text:"Потребности планируются в SAP PS в сроки, обеспечивающие план и бюджет закупок."},
+   {t:"step", no:"7.4", actors:[], text:"Формирование ПП, ПЗ и БЗ в SAP MM.", docs:{input:[{label:"Утверждённые потребности проекта"}],output:[{label:"ПП, ПЗ и БЗ в SAP MM"}]}},
+   {t:"step", no:"7.5", actors:[], text:"Утверждение потребностей в ZMPP01: уровень 05 МП/экономист, 10 СИП ЦА, 20 ДПФ ЦА."},
+   {t:"step", no:"7.6", actors:["МП"], r:["МП"], a:["МП"], sla:"2×/нед", text:"Просчет потребностей в SAP дважды в неделю; МП следит за сроками."},
+   {t:"step", no:"7.7", actors:["ОСД"], r:["ОСД"], a:["ОСД"], text:"После просчета ОСД создает заявку на поставку (ZMPP04), деблокирует уровень 10 (ME54).", docs:{input:[{label:"Просчитанные потребности (SAP)"}],output:[{label:"Заявка на поставку (ZMPP04)",to:"уровень 10 деблокирован (ME54)"}]}},
+   {t:"step", no:"7.8", actors:[], sla:"2×/мес", text:"Корректировка плана закупок дважды в месяц; точечные — по обоснованию МП."},
+   {t:"step", no:"7.9", actors:["МП"], r:["МП"], a:["МП"], text:"Проверка: потребности из ПГ отражены в SAP PS/MM, утверждены и просчитаны.", checklist:{head:"МП проверяет, что", items:["потребности из ПГ отражены в SAP PS/MM","потребности утверждены","потребности просчитаны"]}}
+ ]},
+ {id:3, title:"Формирование лотов и заявок на закупку", trigger:"Потребности просчитаны и подтверждены", items:[
+   {t:"step", no:"8.1", actors:["ОСД"], r:["ОСД"], a:["ОСД"], text:"Формирование лотов (ZMPP_LOT).", docs:{input:[{label:"Утверждённый план закупок"}],output:[{label:"Лоты (ZMPP_LOT)",to:"ГД ДУП — на утверждение"}]}},
+   {t:"step", no:"8.2", actors:["ОСД"], r:["ОСД"], a:["ОСД"], text:"В лоте: приоритет, сроки, способ закупки, местное содержание, место, способ оплаты, срок поставки.", checklist:{head:"В лоте указаны", items:["приоритет","сроки","способ закупки","местное содержание","место","способ оплаты","срок поставки"]}},
+   {t:"step", no:"8.3", actors:["ГД ДУП"], r:["ГД ДУП"], a:["ГД ДУП"], text:"Утверждение лотов (ZMPP_LOT_APR).", docs:{input:[{label:"Сформированные лоты",from:"ОСД"}],output:[{label:"Утверждённые лоты (ZMPP_LOT_APR)",to:"ОСД"}]}},
+   {t:"step", no:"8.4", actors:["ОСД","МП"], r:["ОСД","МП"], a:["ОСД","МП"], text:"Заявка на портале «Мониторинг закупок»; параллельно МП направляет СЗ с документами.", flow:{type:"joint"}, docs:{input:[{label:"Утверждённые лоты"}],output:[{label:"Заявка на портале «Мониторинг закупок»"},{label:"СЗ с документами и требованиями",to:"ОСД"}]}},
+   {t:"step", no:"8.5", actors:["ОСД"], r:["ОСД"], a:["ОСД"], text:"В заявке: техспецификация, шаблон договора, ПСД, данные для договора, иные документы.", checklist:{head:"В заявке", items:["техспецификация","шаблон договора","ПСД","данные для договора","иные документы"]}, docs:{input:[{label:"СЗ с требованиями и документами",from:"МП (§8.4)"}],output:[{label:"Заполненная заявка с приложениями",to:"на маршрут согласования (§8.7)"}]}},
+   {t:"step", no:"8.6", actors:[], text:"Все лоты заявки — идентичные срок/способ/вид/приоритет; один шаблон договора."},
+   {t:"step", no:"8.7", actors:["маршрут·7"], text:"Согласование: инициатор ОСД → рук. ОСД → МП/дир.ПО → тех.эксперт (стоп без заключения) → дир.по строительству → фин.директор → ГД ДУП.", docs:{input:[{label:"Заявка на закупку с приложениями"}],output:[{label:"Согласованная и утверждённая заявка",to:"ДТК"}]}},
+   {t:"step", no:"8.8", actors:["МП"], r:["МП"], a:["МП"], text:"Контроль сроков, комплектности, маршрута.", branch:"При отклонении → возврат ОСД: именно ОСД готовил заявку и маршрут, МП лишь фиксирует замечание."}
+ ]},
+ {id:4, title:"Закупочные процедуры и техническое заключение", trigger:"Заявка утверждена и направлена в ДТК", items:[
+   {t:"step", no:"9.1", actors:["ДТК"], r:["ДТК"], a:["ДТК"], text:"Заявка автоматически направляется в ДТК; процедуры по регламенту ДТК.", docs:{input:[{label:"Утверждённая заявка на закупку"}],output:[{label:"Закупочные процедуры по регламенту ДТК"}]}},
+   {t:"step", no:"9.2", actors:["тех. эксперт"], r:["тех. эксперт"], a:["тех. эксперт"], sla:"≤3 р.д.", text:"Техническое заключение после вскрытия тендерных заявок.", docs:{input:[{label:"Вскрытые тендерные заявки"}],output:[{label:"Техническое заключение",to:"ДТК"}]}},
+   {t:"step", no:"9.3", actors:["ДТК"], r:["ДТК"], a:["ДТК"], text:"Финансовое и юридическое заключения — по регламенту ДТК."},
+   {t:"step", no:"9.4", actors:["ИСЭЗ"], r:["ИСЭЗ"], a:["ИСЭЗ"], text:"Протокол итогов тендера/ЗЦП определяет победителя; карточка договора — автоматически.", docs:{input:[{label:"Итоги тендера / ЗЦП"}],output:[{label:"Протокол итогов тендера / ЗЦП"},{label:"Карточка договора (автоматически)",to:"ОСД"}]}},
+   {t:"step", no:"9.5", actors:["МП"], r:["МП"], a:["МП"], sla:"≤3 р.д.", text:"Контроль наличия тех.заключения.", branch:"При просрочке → уведомление тех.эксперту и его руководителю (не возврат документа — эксперт ещё не выдал заключение)."}
+ ]},
+ {id:5, title:"Договор и Заказ на выполнение работ", trigger:"Карточка договора сформирована в ИСЭЗ", items:[
+   {t:"step", no:"10.1", actors:["ОСД"], r:["ОСД"], a:["ОСД"], text:"Заполнение сведений, проект договора, приложения; направление Контрагенту на подтверждение.", docs:{input:[{label:"Карточка договора",from:"ИСЭЗ"}],output:[{label:"Проект договора с приложениями",to:"Контрагент — на подтверждение"}]}},
+   {t:"step", no:"10.2", actors:["ОСД"], r:["ОСД"], a:["ОСД"], text:"Приложения при необходимости: формы актов, ВДЦ, ГПР, ПСД.", checklist:{head:"Приложения при необходимости", items:["формы актов","ВДЦ","ГПР","ПСД"]}},
+   {t:"step", no:"10.3", actors:["ОСД"], r:["ОСД"], a:["ОСД"], sla:"≤2 р.д.", text:"При СМР — СЗ Директору по строительству о приложениях (ВДЦ, ГПР)."},
+   {t:"step", no:"10.4", actors:["Контрагент","ССОР","ОСД"], r:["Контрагент","ССОР","ОСД"], a:["Контрагент","ССОР","ОСД"], sla:"12/14 р.д.", text:"Заключение договора: 12 р.д. (4+3+5); нерезидент РК — 14 р.д. (5+4+5).", docs:{input:[{label:"Приложения к договору",from:"Контрагент"}],output:[{label:"Заключённый договор",to:"Контрагент, ССОР"}]}},
+   {t:"step", no:"10.7", actors:[], sla:"≤10 р.д.", text:"Договоры из одного источника / ограниченного участия — 10 р.д."},
+   {t:"step", no:"10.8", actors:["ОЦО ЮС"], r:["ОЦО ЮС"], a:["ОЦО ЮС"], text:"Договоры из одного источника и >10 млн USD — доп. согласование с ОЦО ЮС."},
+   {t:"step", no:"10.9", actors:["маршрут·7"], text:"Согласование договора: инициатор → рук.ОСД → рук.ПО → дир.по операц.эфф. → дир.по строительству → фин.директор → ГД ДУП."},
+   {t:"step", no:"10.10", actors:["ОСД"], r:["ОСД"], a:["ОСД"], sla:"≤2 р.д.", text:"СЗ о заключенном договоре — МП, ЦП, ЦКС, ССОР.", docs:{input:[{label:"Заключённый договор"}],output:[{label:"СЗ о заключённом договоре",to:"МП, ЦП, ЦКС, ССОР"}]}},
+   {t:"step", no:"10.11", actors:["ОСД"], r:["ОСД"], a:["ОСД"], sla:"≤3 р.д.", text:"Контракт создан в SAP.", docs:{input:[{label:"Заключённый договор"}],output:[{label:"Контракт в SAP"}]}},
+   {t:"step", no:"10.13", actors:["МП","ЦП"], r:["МП","ЦП"], a:["МП","ЦП"], text:"МП готовит перечень объектов для ПИР, направляет в ЦП СЗ с адресами.", docs:{input:[{label:"СЗ о заключённом договоре",from:"ОСД (§10.10)"}],output:[{label:"Перечень объектов / СЗ с адресами для ПИР",to:"ЦП"}]}},
+   {t:"step", no:"10.14", actors:["ЦП"], r:["ЦП"], a:["ЦП"], text:"Расчет доходности по адресам; Заказ на выполнение работ и Задание на проектирование.", docs:{input:[{label:"Перечень адресов",from:"МП"}],output:[{label:"Заказ на выполнение работ"},{label:"Задание на проектирование",to:"МП — на проверку"}]}},
+   {t:"step", no:"10.15", actors:["МП"], r:["МП"], a:["МП"], text:"Проверка доходности, бюджета, соответствия Заказа бизнес-плану.", docs:{input:[{label:"Заказ на выполнение работ",from:"ЦП"}],output:[{label:"Проверенный и одобренный Заказ",to:"ГД ДУП — на подпись"}]}},
+   {t:"step", no:"10.16", actors:["ГД ДУП","Контрагент"], r:["ГД ДУП"], a:["ГД ДУП"], i:["Контрагент"], text:"Заказ подписывается ГД ДУП, направляется Контрагенту на подпись.", docs:{input:[{label:"Одобренный Заказ",from:"МП"}],output:[{label:"Подписанный Заказ",to:"Контрагент — на подпись"}]}},
+   {t:"step", no:"10.17", actors:["МП","ОСД"], r:["МП","ОСД"], a:["МП","ОСД"], text:"Подписанный Заказ в ОСД; ОСД загружает как приложение к договору в ИСЭЗ.", docs:{input:[{label:"Заказ, подписанный обеими сторонами"}],output:[{label:"Заказ как приложение к договору в ИСЭЗ"}]}},
+   {t:"gate", id:"G1", title:"Договор к реализации", cond:"СЗ о договоре направлена, контракт создан в SAP, ПГ зафиксирован.", esc:"рук. ОСД + ГД ДУП", r:["МП"], a:["СМиК","ГД ДУП"], condItems:["СЗ о заключённом договоре направлена","Контракт создан в SAP","ПГ зафиксирован"]},
+   {t:"step", no:"10.19", actors:["Контрагент","ОДС"], r:["Контрагент","ОДС"], a:["Контрагент","ОДС"], text:"Заявка на ТУ в ОДС; ОДС предоставляет ТУ.", docs:{input:[{label:"Заявка на технические условия (ТУ)",from:"Контрагент"}],output:[{label:"Технические условия (ТУ)",to:"Контрагент"}]}},
+   {t:"step", no:"10.20", actors:["Контрагент","ЦП"], r:["Контрагент"], a:["Контрагент"], i:["ЦП"], text:"Разработка ПСД, ВДЦ, КЕДР, ГПР на основании ТУ; направление в ЦП на ведомственную экспертизу.", flow:{type:"deliver", from:"Контрагент", fromLabel:"разрабатывает на основании ТУ", to:"ЦП", toLabel:"ведомственная экспертиза", doc:{icon:"📄", label:"ПСД / Рабочий проект", sub:"+ ВДЦ · КЕДР · ГПР"}}},
+   {t:"step", no:"10.21", actors:["ЦП"], r:["ЦП"], a:["ЦП"], text:"Ведомственная экспертиза документации.", branch:"Есть замечания → возврат Контрагенту на доработку и повторную подачу в ЦП (это он готовил ПСД/ВДЦ/КЕДР/ГПР). Нет замечаний → вневедомственная экспертиза по ГПР.", docs:{input:[{label:"ПСД / ВДЦ / КЕДР / ГПР",from:"Контрагент"}],output:[{label:"Заключение ведомственной экспертизы",to:"Контрагент"}]}},
+   {t:"step", no:"10.22", actors:["Контрагент","ЦП","ГД ДУП"], r:["Контрагент","ЦП"], a:["ГД ДУП"], text:"После положительного заключения вневедомственной экспертизы Контрагент предоставляет ПСД на утверждение. ЦП запускает процедуру утверждения, ПСД утверждает ГД ДУП.", docs:{input:[{label:"Положительное заключение вневедомственной экспертизы"}],output:[{label:"Утверждённая ПСД",to:"ЦП, подразделения ДУП"}]}},
+   {t:"step", no:"10.23", actors:["ЦП","Контрагент"], r:["ЦП","Контрагент"], a:["ЦП","Контрагент"], text:"После утверждения ПСД ЦП рассылает документацию подразделениям ДУП. Контрагент передаёт в ЦКС ГПР, копии приказов о назначении ответственных лиц и техкарту (при необходимости).", flow:{type:"dual", flows:[
+     {label:"ЦП — внутренняя рассылка", from:"ЦП", to:"Подразделения ДУП", toLabel:"получают на исполнение", doc:{icon:"📄", label:"ПСД"}},
+     {label:"Контрагент — передача в ЦКС", from:"Контрагент", to:"ЦКС", toLabel:"получает пакет", doc:{icon:"📄", label:"ГПР + приказы", sub:"+ техкарта, если нужно"}}
+   ]}},
+   {t:"gate", id:"G2", title:"ПСД готова", cond:"Ведомственная и вневедомственная экспертизы пройдены, замечания закрыты, ПСД утверждена ГД ДУП.", esc:"рук. ЦП + ГД ДУП", r:["МП"], a:["СМиК","ГД ДУП"], condItems:["Ведомственная экспертиза пройдена","Вневедомственная экспертиза пройдена","Замечания по экспертизам закрыты","ПСД утверждена ГД ДУП"]},
+   {t:"step", no:"10.25", actors:["Контрагент","ССОР"], r:["Контрагент"], a:["ССОР"], text:"ВДЦ и КЕДР в ССОР.", branch:"Есть замечания → возврат Контрагенту на доработку (автор документов — он). Нет замечаний → в ОСД как приложение к договору.", docs:{input:[{label:"ВДЦ и КЕДР",from:"Контрагент"}],output:[{label:"Проверенные ВДЦ и КЕДР",to:"ОСД — как приложение к договору"}]}},
+   {t:"step", no:"10.26", actors:["ЦКС"], r:["ЦКС"], a:["ЦКС"], text:"СЗ о договоре и талон ГАСК; информирование Контрагента; начало технадзора по ГПР.", docs:{input:[{label:"СЗ о заключённом договоре"}],output:[{label:"Талон ГАСК",to:"Контрагент — уведомление о начале СМР"}]}},
+   {t:"step", no:"10.27", actors:["ЦП"], r:["ЦП"], a:["ЦП"], text:"СЗ о договоре; начало авторского надзора по ГПР."},
+   {t:"step", no:"10.28", actors:["Контрагент","ОДС"], r:["Контрагент"], a:["ОДС"], sla:"≤2 р.д.", text:"Письмо в ОДС на наряд-допуск; ОДС выдает наряд-допуск, начинает технологический надзор.", docs:{input:[{label:"Письмо на наряд-допуск",from:"Контрагент"}],output:[{label:"Наряд-допуск",to:"Контрагент"}]}},
+   {t:"gate", id:"G3", title:"К СМР", cond:"Талон ГАСК получен, ВДЦ и КЕДР проверены, наряд-допуск ОДС получен.", esc:"рук. ЦКС/ОДС + ГД ДУП", r:["МП"], a:["СМиК","ГД ДУП"], condItems:["Талон ГАСК получен","ВДЦ и КЕДР проверены","Наряд-допуск ОДС получен"]},
+   {t:"step", no:"10.30", actors:["Контрагент"], r:["Контрагент"], a:["Контрагент"], text:"Начало СМР — после старта технадзора ЦКС, технологич.надзора ОДС и прохождения Gate 3."}
+ ]},
+ {id:6, title:"Сопровождение договоров ПИР и СМР", trigger:"Допуск к СМР получен (Gate 3)", items:[
+   {t:"step", no:"11.1", actors:[], text:"Выполнение СМР допускается после условий допуска (п.10.30)."},
+   {t:"step", no:"11.2", actors:["ЦКС","ОДС"], r:["ЦКС","ОДС"], a:["ЦКС","ОДС"], text:"Технадзор ЦКС и технологический надзор ОДС; постоянный доступ на площадку.", flow:{type:"joint"}},
+   {t:"step", no:"11.3", actors:["ЦКС","ОДС"], r:["ЦКС","ОДС"], a:["ЦКС","ОДС"], text:"При нарушениях — замечания и предписание Контрагенту (исполнителю работ на площадке), срок устранения.", branch:"В серьёзных случаях ОДС вправе остановить работы, уведомив ЦКС — это уже не просто возврат на доработку, а прямая приостановка.", flow:{type:"joint"}},
+   {t:"step", no:"11.4", actors:["ЦП","ЦКС","ОДС"], r:["ЦП","ЦКС","ОДС"], a:["ЦП","ЦКС","ОДС"], sla:"ежемесячно", text:"Проверка и согласование объемных справок.", flow:{type:"joint"}},
+   {t:"step", no:"11.5", actors:["ЦКС"], r:["ЦКС"], a:["ЦКС"], sla:"до 23 числа", text:"СЗ в ССОР: АВР и согласованные объемные справки.", docs:{input:[{label:"Согласованные объёмные справки"}],output:[{label:"АВР + объёмные справки (СЗ)",to:"ССОР"}]}},
+   {t:"step", no:"11.6", actors:["ССОР","ЦКС","Главный бухгалтер","ГД ДУП"], r:["ССОР"], a:["ГД ДУП"], c:["ЦКС","Главный бухгалтер"], sla:"до 30 числа", text:"ССОР проверяет объёмные справки. При отсутствии замечаний — последовательное согласование: ЦКС, затем главный бухгалтер, и утверждение ГД ДУП.", branch:"Если у ССОР есть замечания → возврат ЦКС на доработку (это он собрал и прислал справки в §11.5); согласование дальше по цепочке не идёт, пока замечания не устранены.", docs:{input:[{label:"АВР и объёмные справки",from:"ЦКС"}],output:[{label:"Утверждённые формы ССОР",to:"ОСД (§11.7)"}]}},
+   {t:"step", no:"11.7", actors:["ССОР"], r:["ССОР"], a:["ССОР"], sla:"до 30 числа", text:"Пакет документов (КС-3, ф-2В/Р-1, справки, ЭСФ, накладные) → в ОСД.", docs:{input:[{label:"Утверждённые формы ССОР"}],output:[{label:"Пакет документов: КС-3, ф-2В/Р-1, справки, ЭСФ, накладные",to:"ОСД"}]}},
+   {t:"gate", id:"G4", title:"Ежемесячное актирование", cond:"Объемы подтверждены, формы ССОР проверены — до 30 числа отчетного месяца.", esc:"рук. ССОР + ГД ДУП", r:["МП"], a:["СМиК","ГД ДУП"], condItems:["Объёмы работ подтверждены","Формы ССОР проверены","Срок — до 30 числа отчётного месяца"]},
+   {t:"step", no:"11.9", actors:["ОСД"], r:["ОСД"], a:["ОСД"], sla:"до 1 числа", text:"Заявки в Фин ОЦО/НКС; заказ в SAP R/3; отражение ЭСФ.", docs:{input:[{label:"Пакет документов",from:"ССОР"}],output:[{label:"Заявки в Фин ОЦО / НКС"},{label:"ЭСФ, отражённая в SAP R/3"}]}},
+   {t:"step", no:"11.10", actors:["ОСД"], r:["ОСД"], a:["ОСД"], text:"Если объемы не в полном объеме → ЗНО по факту принятых.", branch:"Если полностью → ожидание Акта приемки и СЗ от МП."},
+   {t:"gate", id:"G5", title:"К оплате", cond:"Заявки поданы, ЭСФ отражена, ЗНО подготовлен.", esc:"рук. ОСД/СБУЭиФ + ГД ДУП", r:["МП"], a:["СМиК","ГД ДУП"], condItems:["Заявки в Фин ОЦО / НКС поданы","ЭСФ отражена","ЗНО подготовлен"]},
+   {t:"step", no:"11.12", actors:["ОСД","ЦП","ЦКС","ССОР"], r:["ОСД","ЦП","ЦКС","ССОР"], a:["ОСД","ЦП","ЦКС","ССОР"], text:"При просрочке документов/согласования/заявок — уведомление МП в день выявления.", flow:{type:"converge", group:["ОСД","ЦП","ЦКС","ССОР"], groupLabel:"Уведомляют при просрочке", target:"МП", targetLabel:"Получает сигнал"}},
+   {t:"step", no:"11.13", actors:["ЦКС"], r:["ЦКС"], a:["ЦКС"], sla:"до 5 числа", text:"Отчет в ГАСК через eQurylys.kz; статус-отчеты МП о ходе СМР.", docs:{input:[{label:"Данные о ходе строительства"}],output:[{label:"Отчёт в ГАСК (eQurylys.kz)"},{label:"Статус-отчёт",to:"МП"}]}},
+   {t:"step", no:"11.14", actors:["МП"], r:["МП"], a:["МП"], sla:"еженедельно", text:"Контроль статуса СМР, рисков и отклонений от ГПР."}
+ ]},
+ {id:7, title:"Завершение СМР, оплата, передача на баланс", trigger:"СМР на объекте завершены", items:[
+   {t:"step", no:"12.1", actors:["Контрагент"], r:["Контрагент"], a:["Контрагент"], text:"Подготовка объекта к приемке, исполнительная документация; письмо о завершении СМР.", docs:{input:[{label:"Завершённые СМР на объекте"}],output:[{label:"Исполнительная документация"},{label:"Письмо о завершении СМР",to:"ЦКС"}]}},
+   {t:"step", no:"12.2", actors:["ЦКС"], r:["ЦКС"], a:["ЦКС"], text:"Технический акт приемки; совместная приемка объекта.", docs:{input:[{label:"Письмо о завершении СМР",from:"Контрагент"}],output:[{label:"Технический акт приёмки"}]}},
+   {t:"step", no:"12.3", actors:["ЦКС"], r:["ЦКС"], a:["ЦКС"], text:"СЗ в МП и ССОР о завершении СМР с заключениями (Комиссия, декларация, качество).", docs:{input:[{label:"Технический акт приёмки"}],output:[{label:"СЗ с заключениями (Комиссия, декларация, качество)",to:"МП, ССОР"}]}},
+   {t:"step", no:"12.4", actors:["ССОР"], r:["ССОР"], a:["ССОР"], text:"Расшифровка затрат для передачи на баланс.", docs:{input:[{label:"СЗ о завершении СМР",from:"ЦКС"}],output:[{label:"Расшифровка затрат",to:"МП, СБУЭиФ"}]}},
+   {t:"step", no:"12.5", actors:["МП","ОСД"], r:["МП"], a:["МП"], i:["ОСД"], text:"МП получает документы; направляет СЗ в ОСД для окончательной оплаты.", docs:{input:[{label:"Акт приёмки и расшифровка затрат"}],output:[{label:"СЗ на окончательную оплату",to:"ОСД"}]}},
+   {t:"step", no:"12.6", actors:["ОСД"], r:["ОСД"], a:["ОСД"], sla:"≤1 р.д.", text:"ЗНО на окончательную оплату; заявка на возврат обеспечения Контрагенту.", docs:{input:[{label:"СЗ на окончательную оплату",from:"МП"}],output:[{label:"ЗНО на окончательную оплату"},{label:"Заявка на возврат обеспечения",to:"Контрагент"}]}},
+   {t:"step", no:"12.7", actors:["ЦКС"], r:["ЦКС"], a:["ЦКС"], text:"Ввод объекта в эксплуатацию."},
+   {t:"gate", id:"G6", title:"Ввод и передача на баланс", cond:"Акт приемки есть, расшифровка затрат готова.", esc:"рук. ЦП/ОСД + ГД ДУП", r:["МП"], a:["СМиК","ГД ДУП"], condItems:["Акт приёмки оформлен","Расшифровка затрат готова"]},
+   {t:"step", no:"12.9", actors:["МП","СБУЭиФ"], r:["МП","СБУЭиФ"], a:["МП","СБУЭиФ"], text:"МП инициирует распоряжение о передаче объекта на баланс ОДС. Параллельно СБУЭиФ на основании расшифровки затрат формирует реестр и заявки в Фин ОЦО/НКС.", flow:{type:"joint"}, docs:{input:[{label:"Расшифровка затрат"}],output:[{label:"Распоряжение о передаче на баланс",to:"ОДС"},{label:"Реестр и заявки в Фин ОЦО / НКС"}]}}
+ ]},
+ {id:8, title:"Штрафные санкции, ЗНО и оплата", trigger:"Приближение/нарушение срока реализации договора", items:[
+   {t:"step", no:"13.1", actors:["ОСД"], r:["ОСД"], a:["ОСД"], sla:"за 3 р.д.", text:"Письмо-уведомление Контрагенту о сроках и возможных санкциях.", docs:{input:[{label:"Данные о приближающемся сроке договора"}],output:[{label:"Письмо-уведомление",to:"Контрагент"}]}},
+   {t:"step", no:"13.2", actors:["ОСД","СБУЭиФ"], r:["ОСД","СБУЭиФ"], a:["ОСД","СБУЭиФ"], text:"При нарушении — расчет пени, согласование, заявка на начисление в Фин ОЦО.", flow:{type:"joint"}, docs:{input:[{label:"Факт нарушения обязательств Контрагентом"}],output:[{label:"Расчёт пени, согласованный с СБУЭиФ",to:"Фин ОЦО — заявка на начисление"}]}},
+   {t:"step", no:"13.3", actors:["ОСД"], r:["ОСД"], a:["ОСД"], text:"Уведомление о применении штрафных санкций."},
+   {t:"step", no:"13.4", actors:["ОСД"], r:["ОСД"], a:["ОСД"], text:"ЗНО в SAP R/3 за выполненные обязательства.", docs:{input:[{label:"Акты выполненных работ"}],output:[{label:"ЗНО в SAP R/3"}]}},
+   {t:"step", no:"13.5", actors:[], text:"Срок оплаты — автоматически по условиям договора."},
+   {t:"step", no:"13.6", actors:["МП"], r:["МП"], a:["МП"], text:"Контроль расчета пени, маршрута, уведомления, статуса оплаты."}
+ ]},
+ {id:9, title:"Завершение и закрытие проекта", trigger:"Объекты приняты, обязательства исполнены", items:[
+   {t:"step", no:"14.1", actors:[], text:"Техническое завершение: акты приемки по всем объектам, устранение замечаний, передача на баланс.", checklist:{head:"Техническое завершение", items:["акты приемки по всем объектам","устранение замечаний","передача на баланс"]}},
+   {t:"gate", id:"G7", title:"Закрытие проекта", cond:"Обязательства, оплаты, документы и SAP PS закрыты.", esc:"ГД ДУП", r:["МП"], a:["СМиК","ГД ДУП"], condItems:["Обязательства по договору закрыты","Оплаты произведены","Документы закрыты","SAP PS закрыт"]},
+   {t:"step", no:"14.3", actors:["МП"], r:["МП"], a:["МП"], text:"Мероприятия по закрытию проекта в SAP PS; информирование Заказчика.", docs:{input:[{label:"Пройденный Gate 7"}],output:[{label:"Закрытый проект в SAP PS"},{label:"Информирование",to:"Заказчик"}]}},
+   {t:"step", no:"14.4", actors:[], text:"Полное закрытие только при подтверждении: работы, акты, оплаты/ЗНО, санкции, баланс, замечания, отсутствие критических отклонений.", checklist:{head:"Полное закрытие только при подтверждении", items:["работы","акты","оплаты/ЗНО","санкции","баланс","замечания","отсутствие критических отклонений"]}},
+   {t:"step", no:"14.5", actors:["МП"], r:["МП"], a:["МП"], text:"Анализ результатов проекта после закрытия в SAP PS."}
+ ]}
+];
+
+var ROLE_ORDER = ["МП","ОСД","ЦП","ЦКС","ОДС","ССОР","СБУЭиФ","СМиК","ГД ДУП","Контрагент"];
+var ROLE_META = {
+  "МП": "Менеджер проекта — интегрированное планирование и координация.",
+  "ОСД": "Отдел сопровождения договоров — закупки и договорной процесс.",
+  "ЦП": "Центр проектирования — ПИР/ПСД и авторский надзор.",
+  "ЦКС": "Технический надзор и приёмка строительно-монтажных работ.",
+  "ОДС": "Эксплуатирующее подразделение — технологический надзор и допуски.",
+  "ССОР": "Смета и оформление — проверка объёмов и подготовка к оплате.",
+  "СБУЭиФ": "Учёт, экономика и финансы — реестры и передача на баланс.",
+  "СМиК": "Независимый контролёр гейтов — ключевая роль этой версии Регламента.",
+  "ГД ДУП": "Генеральный директор ДУП — финальные утверждения и точка эскалации.",
+  "Контрагент": "Поставщик / Подрядчик — исполнение работ по договору."
+};
+
+var ROLE_ICON = {
+  "МП": "🧭", "ОСД": "📄", "ЦП": "📐", "ЦКС": "🛠", "ОДС": "⚙️", "ССОР": "🧾",
+  "СБУЭиФ": "💰", "СМиК": "🔍", "ГД ДУП": "🖋", "Контрагент": "🏗",
+  "Заказчик": "🎯", "КУП": "🗳", "ДТК": "🏛", "тех. эксперт": "🔬", "ИСЭЗ": "🖥", "ОЦО ЮС": "⚖️",
+  "Подразделения ДУП": "🏢", "Главный бухгалтер": "🧮"
+};
+var DEFAULT_ICON = "👤";
+function roleIcon(name){ return ROLE_ICON[name] || DEFAULT_ICON; }
+
+/* ---------- role ↔ standards mapping (PRINCE2 / PMI PMBOK) ---------- */
+
+var ROLE_STANDARD = {
+  "МП": {
+    badge: "≈ Project Manager — PRINCE2 · PMI PMBOK",
+    full: "<b>PRINCE2:</b> Менеджер проекта отвечает за повседневное управление проектом от имени Проектного комитета, в рамках согласованных допусков по срокам, бюджету, качеству, содержанию и рискам — планирует, делегирует пакеты работ, ведёт реестры и эскалирует отклонения за пределы допусков." +
+      "<br><br><b>PMI PMBOK:</b> «Лицо, назначенное исполняющей организацией возглавлять команду, ответственную за достижение целей проекта». В PMBOK 7 (2021) роль описана гибче — как координация и содействие команде, а не жёсткое владение процессами." +
+      "<br><br>В Едином регламенте ДУП эта роль называется МП и дополнительно готовит подтверждающие документы по каждому гейту — но не принимает по ним решение (см. роль СМиК)."
+  },
+  "СМиК": {
+    badge: "≈ Project Assurance (PRINCE2) — независимый контроль",
+    full: "Ближайший аналог в PRINCE2 — функция <b>Project Assurance</b>: независимый контроль хода проекта в интересах Проектного комитета. PRINCE2 прямо запрещает делегировать эту функцию менеджеру проекта — иначе он проверял бы сам себя." +
+      "<br><br>В Едином регламенте ДУП тот же принцип называется «сегрегация обязанностей» (п. 2.7): документы к гейту готовит МП, а решение «Готово / Не готово» принимает организационно независимая от него роль — СМиК. Совмещение этих функций одним лицом не допускается."
+  },
+  "overview": {
+    badge: "Почему в процессе две разные роли — МП и СМиК",
+    full: "Подготовка гейта и его проверка в этом процессе разделены между двумя ролями — это принцип «сегрегация обязанностей» (segregation of duties), знакомый по функции <b>Project Assurance</b> в PRINCE2: тот, кто готовит документы, не может сам их проверять и утверждать." +
+      "<br><br><b>МП</b> — интегрированное планирование и координация, готовит подтверждающие документы по каждому гейту (≈ Project Manager в PRINCE2 / PMI PMBOK)." +
+      "<br><br><b>СМиК</b> — организационно независимая роль, проверяет условия гейта и фиксирует решение «Готово / Не готово» (≈ Project Assurance в PRINCE2)."
+  }
+};
+
+var GATE_INDEPENDENCE_NOTE = "🔒 Готовит МП, проверяет независимая от него роль — СМиК. Совмещать подготовку и проверку нельзя (сегрегация обязанностей; в PRINCE2 — аналог функции Project Assurance).";
+
+/* ---------- journey builder ---------- */
+
+function buildJourney(key){
+  var seq = [];
+  STAGE_DEFS.forEach(function(stage){
+    var firstDone = false;
+    stage.items.forEach(function(item){
+      var include = false, kind = null;
+      if (key === "overview"){
+        include = true; kind = item.t === "gate" ? "gate-overview" : "step-overview";
+      } else if (item.t === "step"){
+        if (item.actors.indexOf(key) !== -1){ include = true; kind = "step"; }
+      } else if (item.t === "gate"){
+        if (key === "СМиК"){ include = true; kind = "gate-review"; }
+        else if (key === "ГД ДУП"){ include = true; kind = "gate-escalation"; }
+      }
+      if (include){
+        seq.push({stage:stage, item:item, kind:kind, isFirstOfStage: !firstDone});
+        firstDone = true;
+      }
+    });
+  });
+  return seq;
+}
+
+function stagesTouched(journey){
+  var set = {};
+  journey.forEach(function(m){ set[m.stage.id] = true; });
+  return Object.keys(set).map(Number);
+}
+
+/* ---------- state ---------- */
+
+var screen = "intro"; // intro | walk | done
+var activeKey = null;
+var journey = [];
+var idx = 0;
+var branchOpen = false;
+var gateChoice = null;   // null | "good" | "bad"
+var escalOpen = false;
+var standardsOpen = false; // intro screen: PRINCE2/PMI panel
+var frameworkOpen = false; // walk screen: PRINCE2/PMI panel, persists across moments of one walk
+var raciTableOpen = false; // intro screen: consolidated RACI table
+
+function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function resetMomentState(){ branchOpen = false; gateChoice = null; escalOpen = false; }
+
+function stdCardHTML(entry){
+  return '<div class="std-card"><div class="std-card-title">' + esc(entry.badge) + '</div><div class="std-card-text">' + entry.full + '</div></div>';
+}
+
+/* ---------- RACI helpers ---------- */
+
+function raciCode(item, role){
+  var parts = [];
+  if (item.r && item.r.indexOf(role) !== -1) parts.push("R");
+  if (item.a && item.a.indexOf(role) !== -1) parts.push("A");
+  if (item.c && item.c.indexOf(role) !== -1) parts.push("C");
+  if (item.i && item.i.indexOf(role) !== -1) parts.push("I");
+  return parts.length ? parts.join(" + ") : null;
+}
+
+function renderRaciBreakdown(item){
+  var rows = [];
+  if (item.r && item.r.length) rows.push('<div class="stake-row"><span class="stake-label">R · исполнитель:</span>' + item.r.map(function(a){ return chip(a); }).join("") + '</div>');
+  if (item.a && item.a.length) rows.push('<div class="stake-row"><span class="stake-label">A · ответственный:</span>' + item.a.map(function(a){ return chip(a); }).join("") + '</div>');
+  if (item.c && item.c.length) rows.push('<div class="stake-row"><span class="stake-label">C · консультируется:</span>' + item.c.map(function(a){ return chip(a); }).join("") + '</div>');
+  if (item.i && item.i.length) rows.push('<div class="stake-row"><span class="stake-label">I · информируется:</span>' + item.i.map(function(a){ return chip(a); }).join("") + '</div>');
+  return rows.join("");
+}
+
+function renderRaciTable(){
+  var rows = "";
+  STAGE_DEFS.forEach(function(stage){
+    rows += '<tr class="raci-stage-row"><td colspan="6">Этап ' + stage.id + ' · ' + esc(stage.title) + '</td></tr>';
+    stage.items.forEach(function(item){
+      var label = item.t === "gate" ? item.title : item.text;
+      var no = item.t === "gate" ? ("Gate " + item.id.slice(1)) : item.no;
+      if (!item.r && !item.a && !item.c && !item.i) return;
+      rows += '<tr>' +
+        '<td class="raci-no">' + esc(no) + '</td>' +
+        '<td class="raci-step">' + esc(label) + '</td>' +
+        '<td>' + esc((item.r||[]).join(", ") || "—") + '</td>' +
+        '<td>' + esc((item.a||[]).join(", ") || "—") + '</td>' +
+        '<td>' + esc((item.c||[]).join(", ") || "—") + '</td>' +
+        '<td>' + esc((item.i||[]).join(", ") || "—") + '</td>' +
+      '</tr>';
+    });
+  });
+  return '<div class="raci-legend"><b>R</b> — исполнитель, <b>A</b> — ответственный (утверждает результат), <b>C</b> — консультируется, <b>I</b> — информируется.</div>' +
+    '<div class="raci-table-wrap"><table class="raci-table"><thead><tr><th>№</th><th>Шаг</th><th>R</th><th>A</th><th>C</th><th>I</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+}
+
+/* ---------- render: intro ---------- */
+
+function pluralMoments(n){
+  var mod10 = n % 10, mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return "момент";
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return "момента";
+  return "моментов";
+}
+
+function renderIntro(){
+  var overviewLen = buildJourney("overview").length;
+  var cards = ROLE_ORDER.map(function(r){
+    var len = buildJourney(r).length;
+    var std = ROLE_STANDARD[r];
+    var frameworkLine = std ? '<div class="rframework">' + esc(std.badge) + '</div>' : "";
+    return '<button type="button" class="role-card" data-action="start" data-key="' + esc(r) + '">' +
+      '<div class="rname">' + esc(r) + '</div>' +
+      '<div class="rtag">' + esc(ROLE_META[r]) + '</div>' +
+      frameworkLine +
+      '<div class="rcount">' + len + ' ' + pluralMoments(len) + ' в процессе</div>' +
+    '</button>';
+  }).join("");
+  var standardsPanel = standardsOpen ?
+    '<div class="std-panel">' + stdCardHTML(ROLE_STANDARD["МП"]) + stdCardHTML(ROLE_STANDARD["СМиК"]) + '</div>' : "";
+  return '' +
+  '<div class="kicker">ДУП · Единый регламент</div>' +
+  '<h1>Пройди свою роль в процессе</h1>' +
+  '<p class="lede">Выберите роль — и пройдите по всем моментам Единого регламента, где действуете именно вы: что делать, когда и кому передать результат. Каждый шаг — реальный пункт документа.</p>' +
+  '<div class="note-strip">Это не тест: здесь нет баллов и правильных/неправильных ответов — только ваш путь по процессу, в своём темпе.</div>' +
+  '<div>' +
+    '<button type="button" class="std-toggle" data-action="standards-toggle">' + (standardsOpen ? "Скрыть" : "📚 Как роли МП и СМиК соотносятся с PRINCE2 / PMI PMBOK? →") + '</button>' +
+    standardsPanel +
+  '</div>' +
+  '<div>' +
+    '<button type="button" class="raci-toggle" data-action="raci-toggle">' + (raciTableOpen ? "Скрыть сводную RACI-таблицу" : "📋 Показать сводную RACI-таблицу — все " + STAGE_DEFS.reduce(function(n,s){return n+s.items.length;},0) + " шагов →") + '</button>' +
+    (raciTableOpen ? renderRaciTable() : "") +
+  '</div>' +
+  '<div class="role-grid">' +
+    '<button type="button" class="role-card overview" data-action="start" data-key="overview">' +
+      '<div class="rname">🗺 Весь процесс целиком</div>' +
+      '<div class="rtag">Все 9 этапов и 7 гейтов подряд, с указанием, кто за что отвечает — чтобы увидеть, как роли передают эстафету друг другу. Подготовка и проверка гейтов разделены между МП и СМиК — принцип «сегрегация обязанностей», как в PRINCE2 (Project Assurance).</div>' +
+      '<div class="rcount">' + overviewLen + ' ' + pluralMoments(overviewLen) + '</div>' +
+    '</button>' +
+    cards +
+  '</div>' +
+  '<footer>Тренажёр охватывает все роли Единого регламента ДУП (версия с независимым гейт-контролем СМиК). Содержание построено на тех же пунктах, что и полный текст регламента — номер параграфа показан при каждом шаге.</footer>';
+}
+
+/* ---------- render: walk ---------- */
+
+function chip(text, cls){ return '<span class="chip' + (cls ? ' ' + cls : '') + '">' + esc(text) + '</span>'; }
+
+function actorsChipsHTML(actors, role){
+  if (!actors || !actors.length) return chip("процесс / система", "");
+  return actors.map(function(a){ return chip(a, a === role ? "me" : ""); }).join("");
+}
+
+function flowNode(label, icon, me){
+  return '<div class="flow-node' + (me ? ' me' : '') + '"><span class="flow-icon">' + icon + '</span><span class="flow-label">' + esc(label) + '</span></div>';
+}
+
+function renderFlowChain(nodes){
+  var out = nodes.map(function(n, i){
+    var html = flowNode(n.label, n.icon, n.me);
+    if (i < nodes.length - 1) html += '<span class="flow-arrow">→</span>';
+    return html;
+  }).join("");
+  return '<div class="flow-label-row">Кто участвует и в каком порядке</div><div class="flow-chain">' + out + '</div>';
+}
+
+function actorFlowNodes(actors, role){
+  return actors.map(function(a){ return {label:a, icon:roleIcon(a), me: a === role}; });
+}
+
+function parseRouteChain(text){
+  var afterColon = text.indexOf(':') !== -1 ? text.slice(text.indexOf(':') + 1) : text;
+  return afterColon.split('→').map(function(s){ return s.replace(/\.\s*$/, '').trim(); }).filter(Boolean);
+}
+
+function routeFlowNodes(text, role){
+  var labels = parseRouteChain(text);
+  return labels.map(function(l, i){
+    var isLast = i === labels.length - 1;
+    return {label:l, icon: isLast ? "🖋" : "👤", me: role ? l.indexOf(role) !== -1 : false};
+  });
+}
+
+function renderJointFlow(actors, role){
+  var out = actors.map(function(a){ return flowNode(a, roleIcon(a), a === role); }).join('<span class="flow-plus">+</span>');
+  return '<div class="flow-label-row">Действуют вместе, параллельно</div><div class="flow-chain">' + out + '</div>';
+}
+
+function docNode(icon, label, sub){
+  return '<div class="flow-node doc"><span class="flow-icon">' + icon + '</span><span class="flow-label">' + esc(label) + '</span>' +
+    (sub ? '<span class="flow-doc-sub">' + esc(sub) + '</span>' : '') + '</div>';
+}
+
+function nodeWithCaption(label, icon, me, caption){
+  return '<div class="flow-node-wrap"><div class="flow-node' + (me ? ' me' : '') + '"><span class="flow-icon">' + icon + '</span><span class="flow-label">' + esc(label) + '</span></div>' +
+    (caption ? '<div class="flow-role-note">' + esc(caption) + '</div>' : '') + '</div>';
+}
+
+function renderDeliverFlow(flow, role){
+  var fromHtml = nodeWithCaption(flow.from, roleIcon(flow.from), flow.from === role, flow.fromLabel);
+  var toHtml = nodeWithCaption(flow.to, roleIcon(flow.to), flow.to === role, flow.toLabel);
+  var midHtml = docNode(flow.doc.icon, flow.doc.label, flow.doc.sub);
+  return '<div class="flow-label-row">Что передаётся и кому</div><div class="flow-chain">' +
+    fromHtml + '<span class="flow-arrow">→</span>' + midHtml + '<span class="flow-arrow">→</span>' + toHtml +
+  '</div>';
+}
+
+function renderDualFlow(flow, role){
+  var blocks = flow.flows.map(function(f){
+    var fromHtml = nodeWithCaption(f.from, roleIcon(f.from), f.from === role, f.fromLabel);
+    var toHtml = nodeWithCaption(f.to, roleIcon(f.to), f.to === role, f.toLabel);
+    var midHtml = f.doc ? ('<span class="flow-arrow">→</span>' + docNode(f.doc.icon, f.doc.label, f.doc.sub)) : '';
+    return '<div class="flow-dual-block"><div class="flow-dual-label">' + esc(f.label) + '</div><div class="flow-chain">' +
+      fromHtml + midHtml + '<span class="flow-arrow">→</span>' + toHtml + '</div></div>';
+  }).join('<div class="flow-dual-divider"></div>');
+  return '<div class="flow-label-row">Два независимых действия</div>' + blocks;
+}
+
+function renderChecklist(cl){
+  var itemsHtml = cl.items.map(function(it){
+    return '<div class="checklist-item"><span class="checklist-check">✓</span><span>' + esc(it) + '</span></div>';
+  }).join("");
+  return '<div class="checklist"><div class="checklist-head">' + esc(cl.head) + '</div><div class="checklist-items">' + itemsHtml + '</div></div>';
+}
+
+function renderDocIO(docs){
+  var inputItems = (docs.input || []).map(function(d){
+    return '<div class="doc-io-item in"><span class="doc-io-icon">📥</span><span>' + esc(d.label) +
+      (d.from ? ' <span class="doc-io-tag">от ' + esc(d.from) + '</span>' : '') + '</span></div>';
+  }).join("");
+  var outputItems = (docs.output || []).map(function(d){
+    return '<div class="doc-io-item out"><span class="doc-io-icon">📤</span><span>' + esc(d.label) +
+      (d.to ? ' <span class="doc-io-tag">→ ' + esc(d.to) + '</span>' : '') + '</span></div>';
+  }).join("");
+  var inCol = inputItems ? '<div class="doc-io-col"><div class="doc-io-head in">📥 На входе нужно</div>' + inputItems + '</div>' : "";
+  var outCol = outputItems ? '<div class="doc-io-col"><div class="doc-io-head out">📤 На выходе → кому</div>' + outputItems + '</div>' : "";
+  if (!inCol && !outCol) return "";
+  return '<div class="doc-io">' + inCol + outCol + '</div>';
+}
+
+function renderCondItems(items){
+  return '<div class="cond-list">' + items.map(function(it){
+    return '<div class="cond-item"><span class="cond-check">✓</span><span>' + esc(it) + '</span></div>';
+  }).join("") + '</div>';
+}
+
+function renderConvergeFlow(flow, role){
+  var isApprove = flow.type === "approve";
+  var header = isApprove ? "Кто согласует, а кто утверждает" : "Кто передаёт данные, а кто на их основе действует";
+  var clusterNodes = flow.group.map(function(r){ return flowNode(r, roleIcon(r), r === role); }).join('<span class="flow-plus">+</span>');
+  var targetCls = "flow-node " + (isApprove ? "target-approve" : "target-converge") + (flow.target === role ? " me" : "");
+  var targetHtml = '<div class="' + targetCls + '"><span class="flow-icon">' + roleIcon(flow.target) + '</span><span class="flow-label">' + esc(flow.target) + '</span></div>';
+  return '<div class="flow-label-row">' + esc(header) + '</div>' +
+    '<div class="flow-approve">' +
+      '<div class="flow-cluster">' +
+        '<div class="flow-cluster-label">' + esc(flow.groupLabel) + '</div>' +
+        '<div class="flow-cluster-nodes">' + clusterNodes + '</div>' +
+      '</div>' +
+      '<div class="flow-big-arrow">→<span class="flow-arrow-label">' + esc(flow.targetLabel) + '</span></div>' +
+      targetHtml +
+    '</div>';
+}
+
+function momentBodyHTML(m, role){
+  var item = m.item;
+  var kind = m.kind;
+  var effRole = kind === "step-overview" ? null : role;
+
+  if (kind === "step" || kind === "step-overview"){
+    var isRoute = item.actors && item.actors.length === 1 && item.actors[0].indexOf("маршрут") === 0;
+    var flowHtml = "";
+    if (isRoute){
+      flowHtml = renderFlowChain(routeFlowNodes(item.text, effRole));
+    } else if (item.flow && item.flow.type === "joint"){
+      flowHtml = renderJointFlow(item.actors, effRole);
+    } else if (item.flow && (item.flow.type === "approve" || item.flow.type === "converge")){
+      flowHtml = renderConvergeFlow(item.flow, effRole);
+    } else if (item.flow && item.flow.type === "deliver"){
+      flowHtml = renderDeliverFlow(item.flow, effRole);
+    } else if (item.flow && item.flow.type === "dual"){
+      flowHtml = renderDualFlow(item.flow, effRole);
+    } else if (item.actors && item.actors.length >= 2){
+      flowHtml = renderFlowChain(actorFlowNodes(item.actors, effRole));
+    } else if (item.actors && item.actors.length === 1){
+      flowHtml = '<div class="flow-label-row">Кто выполняет</div><div class="flow-chain">' +
+        flowNode(item.actors[0], roleIcon(item.actors[0]), item.actors[0] === effRole) + '</div>';
+    } else {
+      flowHtml = '<div class="flow-label-row">Кто выполняет</div><div class="flow-chain">' +
+        flowNode("процесс / система", "⚙️", false) + '</div>';
+    }
+    var checklistHtml = item.checklist ? renderChecklist(item.checklist) : "";
+    var docIOHtml = item.docs ? renderDocIO(item.docs) : "";
+    var slaHtml = item.sla ? chip(item.sla, "sla") : "";
+    var paraHtml = chip("§" + item.no, "para");
+    var raciHtml = "";
+    if (kind === "step-overview"){
+      raciHtml = renderRaciBreakdown(item);
+    } else {
+      var code = raciCode(item, role);
+      if (code) paraHtml += chip("RACI: " + code, "raci");
+    }
+    var branchHtml = "";
+    if (item.branch){
+      branchHtml = '<button type="button" class="branch-btn" data-action="branch-toggle">' +
+        (branchOpen ? "Скрыть вариант развития" : "А если пойдёт не по плану? →") + '</button>' +
+        (branchOpen ? '<div class="branch-panel">' + esc(item.branch) + '</div>' : "");
+    }
+    return '<div class="chip-row">' + paraHtml + slaHtml + '</div>' +
+      '<div class="moment-text">' + esc(item.text) + '</div>' +
+      checklistHtml +
+      flowHtml +
+      docIOHtml +
+      raciHtml +
+      branchHtml;
+  }
+
+  if (kind === "gate-review"){
+    var outcome = "";
+    if (gateChoice === "good"){
+      outcome = '<div class="g-outcome good">Гейт пройден. Документы МП подтверждены — проект продолжает движение к следующему этапу.</div>';
+    } else if (gateChoice === "bad"){
+      outcome = '<div class="g-outcome bad">Возврат в МП с перечнем конкретных замечаний. Если замечания не устранены и повторной проверки нет в течение 2 рабочих дней — вопрос автоматически уходит на эскалацию: ' + esc(item.esc) + '.</div>';
+    }
+    var raciCodeSmik = raciCode(item, role);
+    return '<div class="chip-row">' + chip("Gate " + item.id.slice(1), "para") + (raciCodeSmik ? chip("RACI: " + raciCodeSmik, "raci") : "") + '</div>' +
+      '<div class="moment-text">' + esc(item.title) + '</div>' +
+      renderFlowChain([{label:"МП готовит документы", icon:roleIcon("МП"), me:false}, {label:"СМиК (вы) проверяет", icon:roleIcon("СМиК"), me:true}]) +
+      '<div class="gate-box">' +
+        '<div class="g-title">Условие прохождения</div>' +
+        (item.condItems ? renderCondItems(item.condItems) : '<div class="g-cond">' + esc(item.cond) + '</div>') +
+        '<div class="g-esc">Более 2 р.д. без решения → эскалация: ' + esc(item.esc) + '</div>' +
+        '<div class="g-independence">' + esc(GATE_INDEPENDENCE_NOTE) + '</div>' +
+        '<div class="g-choices">' +
+          '<button type="button" class="btn good' + (gateChoice==="good"?" picked":"") + '" data-action="gate-choice" data-choice="good">✓ Отметить «Готово»</button>' +
+          '<button type="button" class="btn bad' + (gateChoice==="bad"?" picked":"") + '" data-action="gate-choice" data-choice="bad">↺ Отметить «Не готово»</button>' +
+        '</div>' +
+        outcome +
+      '</div>';
+  }
+
+  if (kind === "gate-escalation"){
+    var guide = escalOpen ? '<div class="g-guide">Как ГД ДУП, ваша задача — снять затор: разобраться, почему СМиК не смог принять решение, и либо утвердить гейт, либо направить конкретные замечания на устранение. Это последняя точка эскалации в Едином регламенте — дальше решать некому.</div>' : "";
+    var raciCodeGd = raciCode(item, role);
+    return '<div class="chip-row">' + chip("Gate " + item.id.slice(1), "para") + (raciCodeGd ? chip("RACI: " + raciCodeGd, "raci") : "") + '</div>' +
+      '<div class="moment-text">' + esc(item.title) + '</div>' +
+      renderFlowChain([{label:"СМиК не решил за 2 р.д.", icon:roleIcon("СМиК"), me:false}, {label:"ГД ДУП (вы) решает", icon:roleIcon("ГД ДУП"), me:true}]) +
+      '<div class="gate-box">' +
+        '<div class="g-title">Что должно быть выполнено</div>' +
+        (item.condItems ? renderCondItems(item.condItems) : '<div class="g-cond">' + esc(item.cond) + '</div>') +
+        '<div class="g-esc">Эскалация приходит к вам, если СМиК не принял решение за 2 рабочих дня.</div>' +
+        '<div class="g-independence">' + esc(GATE_INDEPENDENCE_NOTE) + '</div>' +
+        '<button type="button" class="btn primary g-reveal-btn" data-action="escal-toggle">' + (escalOpen ? "Скрыть" : "Рассмотреть эскалацию →") + '</button>' +
+        guide +
+      '</div>';
+  }
+
+  if (kind === "gate-overview"){
+    return '<div class="chip-row">' + chip("Gate " + item.id.slice(1), "para") + '</div>' +
+      '<div class="moment-text">' + esc(item.title) + '</div>' +
+      renderFlowChain([{label:"МП готовит документы", icon:roleIcon("МП"), me:false}, {label:"СМиК проверяет", icon:roleIcon("СМиК"), me:false}]) +
+      '<div class="gate-box">' +
+        '<div class="g-title">Условие прохождения</div>' +
+        (item.condItems ? renderCondItems(item.condItems) : '<div class="g-cond">' + esc(item.cond) + '</div>') +
+        '<div class="g-esc">Более 2 р.д. без решения → эскалация: ' + esc(item.esc) + '</div>' +
+        '<div class="g-independence">' + esc(GATE_INDEPENDENCE_NOTE) + '</div>' +
+      '</div>' +
+      renderRaciBreakdown(item);
+  }
+  return "";
+}
+
+function renderStageStrip(touchedStages, currentStageId){
+  var dots = "";
+  for (var i=1;i<=9;i++){
+    var touched = touchedStages.indexOf(i) !== -1;
+    var cur = i === currentStageId;
+    dots += '<div class="stage-dot-wrap"><div class="stage-dot' + (touched?' touched':'') + (cur?' current':'') + '" title="Этап ' + i + '"></div></div>';
+  }
+  return '<div class="stage-strip">' + dots + '</div>';
+}
+
+function renderWalk(){
+  var m = journey[idx];
+  var roleLabel = activeKey === "overview" ? "Весь процесс" : activeKey;
+  var touched = stagesTouched(journey);
+  var pct = journey.length ? Math.round(((idx+1) / journey.length) * 100) : 0;
+  var isLast = idx === journey.length - 1;
+
+  var triggerHtml = "";
+  if (m.isFirstOfStage){
+    triggerHtml = '<div class="moment-trigger"><b>Этап ' + m.stage.id + ' · ' + esc(m.stage.title) + '</b> начинается, когда: ' + esc(m.stage.trigger) + '</div>';
+  }
+
+  var std = ROLE_STANDARD[activeKey];
+  var frameworkHtml = "";
+  if (std){
+    frameworkHtml = '<div class="walk-framework">' +
+      '<button type="button" class="std-toggle" data-action="framework-toggle">' + (frameworkOpen ? "Скрыть" : "📚 " + esc(std.badge) + " →") + '</button>' +
+      (frameworkOpen ? '<div class="std-panel">' + stdCardHTML(std) + '</div>' : "") +
+    '</div>';
+  }
+
+  return '' +
+  '<div class="walk-top">' +
+    '<div class="walk-role">' + esc(roleLabel) + '</div>' +
+    '<button type="button" class="walk-back" data-action="intro">← Другая роль</button>' +
+  '</div>' +
+  frameworkHtml +
+  '<div class="walk-count">Момент ' + (idx+1) + ' из ' + journey.length + ' · этап ' + m.stage.id + ' из 9</div>' +
+  '<div class="progress-track"><div class="progress-fill" style="width:' + pct + '%"></div></div>' +
+  renderStageStrip(touched, m.stage.id) +
+  '<div class="moment-card">' +
+    '<div class="moment-kicker">Этап ' + m.stage.id + ' · ' + esc(m.stage.title) + '</div>' +
+    triggerHtml +
+    momentBodyHTML(m, activeKey) +
+  '</div>' +
+  '<div class="nav-row">' +
+    '<button type="button" class="btn ghost" data-action="back"' + (idx===0?' disabled':'') + '>← Назад</button>' +
+    '<span class="nav-spacer"></span>' +
+    '<button type="button" class="btn primary" data-action="next">' + (isLast ? "Завершить →" : "Далее →") + '</button>' +
+  '</div>';
+}
+
+/* ---------- render: done ---------- */
+
+function renderDone(){
+  var roleLabel = activeKey === "overview" ? "Весь процесс" : activeKey;
+  var touched = stagesTouched(journey);
+  var stageChips = touched.map(function(sid){ return chip("Этап " + sid); }).join("");
+  var recap = journey.map(function(m){
+    var it = m.item;
+    var label = it.t === "gate" ? "Gate " + it.id.slice(1) : "§" + it.no;
+    var text = it.t === "gate" ? it.title : it.text;
+    return '<div class="recap-item"><span class="rp">' + esc(label) + '</span><span class="rt">' + esc(text) + '</span></div>';
+  }).join("");
+
+  return '' +
+  '<div class="kicker">ДУП · Единый регламент</div>' +
+  '<div class="done-hero">' +
+    '<div class="done-big">' + esc(roleLabel) + '</div>' +
+    '<div class="done-sub">Путь пройден — ' + journey.length + ' ' + pluralMoments(journey.length) + ' процесса, где действуете вы' + (activeKey==="overview" ? " все вместе" : "") + '.</div>' +
+    '<div class="done-stages">' + stageChips + '</div>' +
+    '<div class="done-actions">' +
+      '<button type="button" class="btn primary" data-action="restart">Пройти ещё раз</button>' +
+      '<button type="button" class="btn" data-action="intro">Выбрать другую роль</button>' +
+    '</div>' +
+  '</div>' +
+  '<div class="recap">' +
+    '<h2>Шпаргалка — весь ваш путь одним списком</h2>' +
+    recap +
+  '</div>' +
+  '<footer>Ничего не сохраняется и не оценивается — возвращайтесь в любой момент, чтобы освежить свою часть Единого регламента ДУП. §-ссылки указывают на пункт полного текста документа.</footer>';
+}
+
+/* ---------- root render ---------- */
+
+function render(){
+  var root = document.getElementById("pageRoot");
+  if (screen === "intro") root.innerHTML = renderIntro();
+  else if (screen === "walk") root.innerHTML = renderWalk();
+  else root.innerHTML = renderDone();
+  window.scrollTo(0,0);
+}
+
+function onClick(e){
+  var t = e.target.closest("[data-action]");
+  if (!t) return;
+  var action = t.getAttribute("data-action");
+
+  if (action === "start"){
+    activeKey = t.getAttribute("data-key");
+    journey = buildJourney(activeKey);
+    idx = 0;
+    resetMomentState();
+    frameworkOpen = false;
+    screen = "walk";
+    render();
+    return;
+  }
+  if (action === "intro"){
+    screen = "intro";
+    activeKey = null;
+    standardsOpen = false;
+    render();
+    return;
+  }
+  if (action === "restart"){
+    idx = 0;
+    resetMomentState();
+    frameworkOpen = false;
+    screen = "walk";
+    render();
+    return;
+  }
+  if (action === "back"){
+    if (idx > 0){ idx--; resetMomentState(); render(); }
+    return;
+  }
+  if (action === "next"){
+    if (idx < journey.length - 1){ idx++; resetMomentState(); render(); }
+    else { screen = "done"; render(); }
+    return;
+  }
+  if (action === "branch-toggle"){
+    branchOpen = !branchOpen;
+    render();
+    return;
+  }
+  if (action === "gate-choice"){
+    gateChoice = t.getAttribute("data-choice");
+    render();
+    return;
+  }
+  if (action === "escal-toggle"){
+    escalOpen = !escalOpen;
+    render();
+    return;
+  }
+  if (action === "standards-toggle"){
+    standardsOpen = !standardsOpen;
+    render();
+    return;
+  }
+  if (action === "raci-toggle"){
+    raciTableOpen = !raciTableOpen;
+    render();
+    return;
+  }
+  if (action === "framework-toggle"){
+    frameworkOpen = !frameworkOpen;
+    render();
+    return;
+  }
+}
+
+document.addEventListener("click", onClick);
+render();
+
+})();
+</script>
+</body>
