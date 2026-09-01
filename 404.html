@@ -4,10 +4,49 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Страница не найдена · ДУП</title>
+  <script src="./assets/js/theme.js"></script>
+  <link rel="stylesheet" href="./assets/css/site.css">
+  <link rel="stylesheet" href="./assets/css/theme-v5.css">
+  <link rel="stylesheet" href="./assets/css/header-v6.css">
   <style>
-    body{margin:0;display:grid;place-items:center;min-height:100vh;background:#eef2f1;color:#16232a;font-family:Segoe UI,Arial,sans-serif}
-    main{max-width:520px;padding:32px;text-align:center}a{color:#2b6e62;font-weight:700}
+    body{min-height:100vh;display:grid;grid-template-rows:auto 1fr;margin:0}
+    .not-found{display:grid;place-items:center;padding:36px 20px}
+    .not-found__card{width:min(100%,560px);padding:34px;border:1px solid var(--line);border-radius:20px;background:var(--surface);box-shadow:var(--shadow);text-align:center}
+    .not-found h1{margin:0;font-size:34px}.not-found p{color:var(--muted);line-height:1.6}
   </style>
 </head>
-<body><main><h1>Страница не найдена</h1><p>Вернитесь в каталог процессов.</p><p><a href="./">На главную</a></p></main></body>
+<body>
+  <header class="site-header">
+    <div class="shell site-header__inner">
+      <div class="site-header__left">
+        <a class="brand" id="home-link-top" href="./">
+          <span class="brand__mark">ДУП</span><span class="brand__text">Навигатор процессов</span>
+        </a>
+      </div>
+      <div class="site-header__actions">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Сменить тему" title="Сменить тему">
+          <span class="theme-toggle__icon" data-theme-icon>☾</span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <main class="not-found">
+    <section class="not-found__card">
+      <h1>Страница не найдена</h1>
+      <p>Вернитесь в каталог процессов.</p>
+      <a class="primary-link" id="home-link" href="./">На главную →</a>
+    </section>
+  </main>
+  <script>
+    (function(){
+      var base = '/';
+      if (location.hostname.endsWith('github.io')) {
+        var seg = location.pathname.split('/').filter(Boolean);
+        if (seg.length) base = '/' + seg[0] + '/';
+      }
+      document.getElementById('home-link').href = base;
+      document.getElementById('home-link-top').href = base;
+    })();
+  </script>
+</body>
 </html>

@@ -635,3 +635,88 @@ body.process-page {
   .process-page .material-nav .tab { min-height: 48px; padding: 6px 12px; }
   .process-page .material-nav-wrap { padding-bottom: 6px; }
 }
+
+/* ===== Process workspace v4: external document + export controls ===== */
+.process-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.quiet-action {
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--muted);
+  background: rgba(255,255,255,.62);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 750;
+}
+.quiet-action:hover { color: var(--accent-deep); border-color: var(--accent); background: var(--accent-soft); }
+.tab--external { position: relative; }
+.tab--external::after {
+  content: "↗";
+  margin-left: 2px;
+  color: var(--muted);
+  font-size: 11px;
+  opacity: .75;
+}
+.tab--external:disabled { opacity: .48; cursor: default; }
+.tab--external:disabled:hover { background: transparent; color: var(--muted); }
+.workspace-toolbar__group--exports { gap: 4px; }
+.toolbar-divider {
+  width: 1px;
+  height: 22px;
+  margin: 0 4px;
+  background: var(--line);
+}
+.toolbar-caption {
+  margin: 0 2px 0 1px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.export-toast {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  z-index: 18;
+  transform: translate(-50%, 8px);
+  padding: 9px 13px;
+  border: 1px solid rgba(43,110,98,.25);
+  border-radius: 999px;
+  background: rgba(22,35,42,.92);
+  color: #fff;
+  box-shadow: 0 10px 28px rgba(22,35,42,.16);
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity .18s ease, transform .18s ease;
+}
+.export-toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+.export-toast.is-error { background: rgba(163,56,43,.95); }
+.viewer-button:disabled { opacity: .48; cursor: wait; }
+
+@media (max-width: 760px) {
+  .process-titlebar .quiet-action { display: none; }
+  .toolbar-caption { display: none; }
+  .workspace-toolbar__group--exports .toolbar-divider { display: none; }
+}
+
+/* ===== v6: embedded document + cleaner tabs ===== */
+.tab:disabled {
+  opacity: .46;
+  cursor: default;
+}
+.tab:disabled:hover { background: transparent; color: var(--muted); }
+.document-toolbar__actions { justify-content: flex-end; }
+.document-stage { background: #dfe5e3; }
+:root[data-theme="dark"] .document-stage { background: #101715; }
+@media (max-width: 640px) {
+  .document-toolbar__actions { gap: 2px; }
+  .document-toolbar__actions .viewer-button { font-size: 11px; }
+}

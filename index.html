@@ -5,15 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Навигатор бизнес-процессов ДУП: BPMN, нормативные документы и ролевые инструкции.">
   <title>ДУП · Навигатор процессов</title>
+  <script src="./assets/js/theme.js"></script>
   <link rel="stylesheet" href="./assets/css/site.css">
+  <link rel="stylesheet" href="./assets/css/theme-v5.css">
+  <link rel="stylesheet" href="./assets/css/header-v6.css">
 </head>
 <body>
   <header class="site-header">
     <div class="shell site-header__inner">
-      <a class="brand" href="./" aria-label="ДУП · Навигатор процессов">
-        <span class="brand__mark">ДУП</span>
-        <span class="brand__text">Навигатор процессов</span>
-      </a>
+      <div class="site-header__left">
+        <a class="brand" href="./" aria-label="ДУП · Навигатор процессов">
+          <span class="brand__mark">ДУП</span>
+          <span class="brand__text">Навигатор процессов</span>
+        </a>
+      </div>
+      <div class="site-header__actions">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Сменить тему" title="Сменить тему">
+          <span class="theme-toggle__icon" data-theme-icon>☾</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -23,7 +33,7 @@
       <h1>Процесс понятен целиком — и по твоей роли</h1>
       <p class="hero__lead">
         Здесь собраны схема BPMN, нормативный документ и практическая шпаргалка сотрудника.
-        Никаких редакторов, логинов и лишних действий — только актуальный материал для просмотра.
+        Выберите процесс и откройте нужный материал.
       </p>
     </section>
 
@@ -40,8 +50,7 @@
         <article class="process-card">
           <h3>Реализация инвестиционного проекта</h3>
           <p>
-            Единая страница процесса: интерактивная BPMN-схема, нормативный документ
-            и ролевая шпаргалка «Твоя роль в процессе».
+            Интерактивная BPMN-схема, нормативный документ и ролевая шпаргалка «Твоя роль в процессе».
           </p>
           <div class="process-card__meta" aria-label="Состав материалов">
             <span>Схема BPMN</span>
@@ -55,19 +64,16 @@
 
         <article class="process-card process-card--ghost" aria-label="Будущие процессы">
           <div class="process-card__topline">Дальше</div>
-          <h3>Следующие процессы добавляются без переделки сайта</h3>
-          <p>
-            Для каждого процесса создаётся такая же папка: схема, документ и отдельная шпаргалка.
-          </p>
+          <h3>Следующие процессы добавляются в этот же каталог</h3>
+          <p>Для каждого процесса можно разместить свою схему, документ и шпаргалку.</p>
           <div class="ghost-list">
-            <span>Приёмка объектов</span>
-            <span>Закупочные процедуры</span>
+            <span>Адреса</span>
+            <span>Оборудование</span>
             <span>Неустойка</span>
           </div>
         </article>
       </div>
     </section>
   </main>
-
 </body>
 </html>

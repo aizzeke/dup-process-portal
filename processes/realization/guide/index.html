@@ -4,14 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Моя роль · ДУП</title>
+  <script src="../../../assets/js/theme.js"></script>
   <style>
+    :root{--loader-bg:#eef2f1;--loader-surface:#fff;--loader-ink:#16232a;--loader-muted:#56666d;--loader-line:#c3cecb;--loader-accent:#2b6e62}
+    :root[data-theme="dark"]{--loader-bg:#0d1412;--loader-surface:#141d1a;--loader-ink:#edf5f2;--loader-muted:#a9bbb5;--loader-line:#30413b;--loader-accent:#72d2bd}
     html,body{height:100%;margin:0}
-    body{display:grid;place-items:center;background:#0f1613;color:#dce8e3;font:14px/1.5 "Segoe UI",Arial,sans-serif}
-    .loader{display:flex;align-items:center;gap:12px;color:#9fb0ab}
-    .dot{width:10px;height:10px;border-radius:50%;background:#7fd0bd;box-shadow:0 0 0 6px rgba(127,208,189,.12)}
-    .error{max-width:680px;padding:28px;border:1px solid #2b3a36;border-radius:16px;background:#161f1c}
-    .error h1{margin:0 0 10px;font-size:20px;color:#fff}
-    .error code{color:#bdf0e0}
+    body{display:grid;place-items:center;background:var(--loader-bg);color:var(--loader-ink);font:14px/1.5 "Segoe UI",Arial,sans-serif}
+    .loader{display:flex;align-items:center;gap:12px;color:var(--loader-muted)}
+    .dot{width:10px;height:10px;border-radius:50%;background:var(--loader-accent);box-shadow:0 0 0 6px color-mix(in srgb,var(--loader-accent) 12%,transparent)}
+    .error{max-width:680px;padding:28px;border:1px solid var(--loader-line);border-radius:16px;background:var(--loader-surface)}
+    .error h1{margin:0 0 10px;font-size:20px}.error code{color:var(--loader-accent)}
   </style>
 </head>
 <body>
@@ -25,21 +27,14 @@
         let html = new TextDecoder('utf-8').decode(bytes);
 
         const portalUi = `
-          <style id="dup-portal-standalone-ui">
-            .dup-portal-back{
-              position:fixed;left:18px;bottom:18px;z-index:2147483647;
-              display:inline-flex;align-items:center;gap:7px;
-              padding:9px 13px;border:1px solid rgba(127,208,189,.45);
-              border-radius:999px;background:rgba(15,22,19,.88);color:#dff7ef;
-              font:600 12px/1.2 "Segoe UI",Arial,sans-serif;text-decoration:none;
-              box-shadow:0 8px 24px rgba(0,0,0,.22);backdrop-filter:blur(12px)
-            }
-            .dup-portal-back:hover{background:rgba(22,48,42,.96)}
-          </style>
-          <a class="dup-portal-back" href="../" aria-label="Вернуться к процессу">← К процессу</a>
+          <link rel="stylesheet" href="../../../assets/css/game-v5.css">
+          <link rel="stylesheet" href="../../../assets/css/header-v6.css">
+          <script src="../../../assets/js/theme.js"><\/script>
+          <script src="../../../assets/js/game-v5.js"><\/script>
         `;
 
-        html += portalUi;
+        if (/<\/body>/i.test(html)) html = html.replace(/<\/body>/i, portalUi + '</body>');
+        else html += portalUi;
         document.open();
         document.write(html);
         document.close();

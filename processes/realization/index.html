@@ -8,7 +8,10 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bpmn-js@18.26.0/dist/assets/diagram-js.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bpmn-js@18.26.0/dist/assets/bpmn-font/css/bpmn.css">
+  <script src="../../assets/js/theme.js"></script>
   <link rel="stylesheet" href="../../assets/css/site.css">
+  <link rel="stylesheet" href="../../assets/css/theme-v5.css">
+  <link rel="stylesheet" href="../../assets/css/header-v6.css">
 
   <script defer src="https://cdn.jsdelivr.net/npm/bpmn-js@18.26.0/dist/bpmn-navigated-viewer.production.min.js"></script>
   <script defer src="../../assets/js/process-page.js"></script>
@@ -16,31 +19,37 @@
 <body class="process-page">
   <header class="site-header">
     <div class="shell site-header__inner">
-      <a class="brand" href="../../" aria-label="Вернуться к каталогу">
-        <span class="brand__mark">ДУП</span>
-        <span class="brand__text">Навигатор процессов</span>
-      </a>
-      <a class="back-link" href="../../">← Все процессы</a>
+      <div class="site-header__left">
+        <a class="brand" href="../../" aria-label="Вернуться к каталогу процессов">
+          <span class="brand__mark">ДУП</span>
+          <span class="brand__text">Навигатор процессов</span>
+        </a>
+        <nav class="header-context" aria-label="Текущий раздел">
+          <span class="header-context__current">Реализация проекта</span>
+        </nav>
+      </div>
+      <div class="site-header__actions">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Сменить тему" title="Сменить тему">
+          <span class="theme-toggle__icon" data-theme-icon>☾</span>
+        </button>
+      </div>
     </div>
   </header>
 
   <main class="process-workspace">
     <section class="shell process-titlebar">
-      <div>
-        <p class="eyebrow">Этап «Реализация»</p>
-        <h1>Реализация инвестиционного проекта</h1>
-      </div>
+      <div><h1>Реализация инвестиционного проекта</h1></div>
     </section>
 
     <div class="shell material-nav-wrap">
-      <nav class="tabs material-nav" aria-label="Материалы процесса" role="tablist">
-        <button class="tab is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-diagram" id="tab-diagram" data-tab="diagram">
+      <nav class="tabs material-nav" aria-label="Материалы процесса">
+        <button class="tab is-active" type="button" aria-current="page" id="tab-diagram" data-panel-target="diagram">
           <span class="tab__icon">⌘</span>
           <span><b>Схема</b><small>BPMN</small></span>
         </button>
-        <button class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-document" id="tab-document" data-tab="document">
+        <button class="tab" type="button" id="tab-document" data-panel-target="document">
           <span class="tab__icon">▤</span>
-          <span><b>Документ</b><small>PDF / DOCX</small></span>
+          <span><b>Документ</b><small>PDF</small></span>
         </button>
         <a class="tab tab--link" href="./guide/" id="guide-link">
           <span class="tab__icon">◎</span>
@@ -49,7 +58,7 @@
       </nav>
     </div>
 
-    <section class="workspace-panel is-active" id="panel-diagram" role="tabpanel" aria-labelledby="tab-diagram" data-panel="diagram">
+    <section class="workspace-panel is-active" id="panel-diagram" aria-labelledby="tab-diagram">
       <div class="bpmn-workspace" id="bpmn-frame">
         <div class="workspace-toolbar" id="diagram-actions" hidden aria-label="Управление схемой">
           <div class="workspace-toolbar__group">
@@ -58,42 +67,43 @@
             <button type="button" class="viewer-button viewer-button--icon" data-diagram-action="zoom-in" title="Увеличить" aria-label="Увеличить">+</button>
             <span class="zoom-value" id="diagram-zoom-value" aria-live="polite"></span>
           </div>
-          <div class="workspace-toolbar__group">
+
+          <div class="workspace-toolbar__group workspace-toolbar__group--exports">
             <button type="button" class="viewer-button" data-diagram-action="fullscreen">На весь экран</button>
-            <a class="viewer-button viewer-button--link" id="diagram-download" href="./diagram/realization.bpmn" download hidden>Скачать BPMN</a>
+            <span class="toolbar-divider" aria-hidden="true"></span>
+            <span class="toolbar-caption">Скачать</span>
+            <a class="viewer-button viewer-button--link" id="diagram-download" href="./diagram/realization.bpmn" download hidden>BPMN</a>
+            <button type="button" class="viewer-button" id="diagram-svg-download" data-diagram-action="download-svg" hidden>SVG</button>
+            <button type="button" class="viewer-button" id="diagram-pdf-download" data-diagram-action="download-pdf" hidden>PDF</button>
           </div>
         </div>
 
         <div class="canvas-stage">
           <div class="loading-state" id="diagram-loading">
-          <span class="spinner" aria-hidden="true"></span>
-        </div>
+            <span class="spinner" aria-hidden="true"></span>
+          </div>
           <div id="bpmn-canvas" class="bpmn-canvas" aria-label="BPMN-схема"></div>
           <div class="empty-state" id="diagram-empty" hidden></div>
           <div class="demo-badge" id="diagram-demo" hidden>Демо-схема</div>
+          <div class="export-toast" id="export-toast" hidden aria-live="polite"></div>
         </div>
       </div>
     </section>
 
-    <section class="workspace-panel" id="panel-document" role="tabpanel" aria-labelledby="tab-document" data-panel="document" hidden>
+    <section class="workspace-panel" id="panel-document" aria-labelledby="tab-document" hidden>
       <div class="document-workspace">
-        <div class="workspace-toolbar workspace-toolbar--document" id="document-actions" hidden>
+        <div class="workspace-toolbar document-toolbar" aria-label="Управление документом">
           <div class="workspace-toolbar__group">
             <span class="workspace-toolbar__label">Нормативный документ</span>
           </div>
-          <div class="workspace-toolbar__group">
-            <a class="viewer-button viewer-button--link" id="document-open" href="./document/regulation.pdf" target="_blank" rel="noopener">Открыть PDF</a>
-            <a class="viewer-button viewer-button--link" id="document-pdf-download" href="./document/regulation.pdf" download>Скачать PDF</a>
-            <a class="viewer-button viewer-button--link" id="document-docx-download" href="./document/regulation.docx" download hidden>Скачать DOCX</a>
+          <div class="workspace-toolbar__group document-toolbar__actions">
+            <a class="viewer-button viewer-button--link" id="document-open-new" href="./document/regulation.pdf" target="_blank" rel="noopener noreferrer" hidden>Открыть в новой вкладке ↗</a>
+            <a class="viewer-button viewer-button--link" id="document-docx-download" href="./document/regulation.docx" download hidden>Word ↓</a>
           </div>
         </div>
         <div class="document-stage">
-          <iframe id="document-viewer" title="Просмотр нормативного документа" hidden></iframe>
-          <div class="empty-state" id="document-empty">
-            <div class="empty-state__icon">▤</div>
-            <h3>PDF пока не добавлен</h3>
-            <p>Добавьте <code>processes/realization/document/regulation.pdf</code>. DOCX можно оставить рядом для скачивания.</p>
-          </div>
+          <iframe id="document-preview" title="Предпросмотр нормативного документа" hidden></iframe>
+          <div class="empty-state" id="document-empty" hidden></div>
         </div>
       </div>
     </section>
