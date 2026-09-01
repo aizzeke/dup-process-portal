@@ -445,10 +445,15 @@
     const pdf = "./document/regulation.pdf";
     const docx = "./document/regulation.docx";
     const documentTab = document.getElementById("tab-document");
-    const preview = document.getElementById("document-preview");
+    const preview = document.getElementById("document-preview") || document.getElementById("document-viewer");
     const empty = document.getElementById("document-empty");
-    const openNew = document.getElementById("document-open-new");
-    const docxDownload = document.getElementById("document-docx-download");
+
+    // v6 IDs + backwards compatibility with previous UI patches.
+    const openNew = document.getElementById("document-open-new") || document.getElementById("document-pdf-open");
+    const docxDownload = document.getElementById("document-docx-download") || document.getElementById("document-docx-link");
+    const pdfDownload = document.getElementById("document-pdf-download");
+    const actions = document.getElementById("document-actions");
+
     const [hasPdf, hasDocx] = await Promise.all([exists(pdf), exists(docx)]);
 
     documentUrl = hasPdf ? pdf : null;
@@ -464,13 +469,20 @@
       openNew.hidden = !hasPdf;
       if (hasPdf) openNew.href = pdf;
     }
+    if (pdfDownload) {
+      pdfDownload.hidden = !hasPdf;
+      if (hasPdf) pdfDownload.href = pdf;
+    }
     if (docxDownload) {
       docxDownload.hidden = !hasDocx;
       if (hasDocx) docxDownload.href = docx;
     }
+    if (actions) actions.hidden = !hasPdf && !hasDocx;
 
     if (hasPdf && preview) {
       preview.hidden = false;
+      // Set immediately so the document tab works even before first activation.
+      if (!preview.getAttribute("src")) preview.src = pdf + "#view=FitH";
       if (empty) empty.hidden = true;
     } else {
       showDocumentEmpty(hasDocx);
